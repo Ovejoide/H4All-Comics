@@ -2196,6 +2196,7 @@
       let scrollHandlerLectura = null;
       let maxPaginaVista = 0;
       let saltarScrollHandler = false;
+      let lastImgObserver = null;
       let transicionando = false;
 
       function nombreIdioma(code) {
@@ -2735,6 +2736,27 @@
               ${t("backToTop")}
             </button>`;
           contenedorPaginas.appendChild(finSection);
+
+          // Observer dedicado a la última imagen — garantiza que la sección
+          // "Comic Terminado" aparezca sin importar la velocidad de scroll
+          if (lastImgObserver) lastImgObserver.disconnect();
+          const allImgs = contenedorPaginas.querySelectorAll("img.pagina-comic");
+          const lastImg = allImgs[allImgs.length - 1];
+          if (lastImg) {
+            lastImgObserver = new IntersectionObserver(
+              (entries) => {
+                if (entries[0].isIntersecting) {
+                  maxPaginaVista = total;
+                  const fin = document.getElementById("comic-fin-section");
+                  if (fin && fin.style.display !== "flex") fin.style.display = "flex";
+                  pageCounter.classList.add("ultima-pagina");
+                  pageCounter.textContent = `${total} / ${total}`;
+                }
+              },
+              { threshold: 0 }
+            );
+            lastImgObserver.observe(lastImg);
+          }
         } catch (error) {
           contenedorPaginas.innerHTML = `<div class="error-box"><strong>${t("errorLoad")}</strong><p>${error.message}</p></div>`;
         }
@@ -2766,6 +2788,10 @@
         if (scrollHandlerLectura) {
           window.removeEventListener("scroll", scrollHandlerLectura);
           scrollHandlerLectura = null;
+        }
+        if (lastImgObserver) {
+          lastImgObserver.disconnect();
+          lastImgObserver = null;
         }
         document.getElementById("visor").style.display = "none";
         document.getElementById("contenedor-comics").style.display = "grid";
