@@ -82,6 +82,7 @@
         position: relative;
         display: flex;
         align-items: flex-end;
+        justify-content: space-between;
         gap: 24px;
       }
       .logo-badge {
@@ -1286,39 +1287,53 @@
         color: var(--accent);
       }
 
-      /* ── KO-FI ── */
-      .kofi-btn {
-        position: fixed;
-        bottom: 24px;
-        right: 16px;
-        z-index: 9999;
-        display: block;
-        text-decoration: none;
+      /* ── HEADER ACTIONS (Ko-fi + T&C) ── */
+      .header-actions {
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+        flex-shrink: 0;
       }
-      .kofi-img-wrap {
-        display: block;
-        width: 62px;
-        height: 62px;
+      .header-action-btn {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        background: transparent;
+        padding: 0;
+        color: var(--ink);
+      }
+      .header-action-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
         border-radius: 12px;
         overflow: hidden;
-        border: none;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-        transition:
-          transform 0.18s ease,
-          box-shadow 0.18s ease,
-          border-color 0.18s ease;
+        background: var(--paper-dark);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
       }
-      .kofi-img-wrap img {
+      .header-action-icon img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
       }
-      .kofi-btn:hover .kofi-img-wrap {
-        transform: scale(1.1);
+      .header-action-btn:hover .header-action-icon {
+        transform: scale(1.08);
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.55);
       }
-      .kofi-tooltip {
+      .header-action-tooltip {
         position: absolute;
         right: calc(100% + 10px);
         top: 50%;
@@ -1333,12 +1348,10 @@
         white-space: nowrap;
         opacity: 0;
         pointer-events: none;
-        transition:
-          opacity 0.18s,
-          transform 0.18s;
+        transition: opacity 0.18s, transform 0.18s;
         box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
       }
-      .kofi-tooltip::after {
+      .header-action-tooltip::after {
         content: "";
         position: absolute;
         left: 100%;
@@ -1347,10 +1360,87 @@
         border: 5px solid transparent;
         border-left-color: var(--ink);
       }
-      .kofi-btn:hover .kofi-tooltip {
+      .header-action-btn:hover .header-action-tooltip {
         opacity: 1;
         transform: translateY(-50%) translateX(0);
       }
+
+      /* ── MODAL TÉRMINOS Y CONDICIONES ── */
+      .tnc-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.78);
+        z-index: 10000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .tnc-overlay.open {
+        display: flex;
+      }
+      .tnc-card {
+        background: var(--paper);
+        color: var(--ink);
+        max-width: 780px;
+        width: 100%;
+        max-height: 88vh;
+        overflow-y: auto;
+        border-radius: 4px;
+        padding: 44px 44px 40px;
+        position: relative;
+        border: 2px solid var(--ink);
+      }
+      .tnc-close {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        color: var(--ink);
+        line-height: 1;
+        padding: 4px 8px;
+        font-family: sans-serif;
+      }
+      .tnc-close:hover { opacity: 0.6; }
+      .tnc-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+      .tnc-main-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 30px;
+        letter-spacing: 3px;
+        line-height: 1;
+      }
+      .tnc-meta {
+        font-family: "Crimson Pro", Georgia, serif;
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-bottom: 28px;
+        letter-spacing: 0.5px;
+      }
+      .tnc-section-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 15px;
+        letter-spacing: 2.5px;
+        margin: 28px 0 8px;
+        border-bottom: 1px solid var(--accent);
+        padding-bottom: 4px;
+      }
+      .tnc-body {
+        font-family: "Crimson Pro", Georgia, serif;
+        font-size: 15px;
+        line-height: 1.75;
+      }
+      .tnc-body p { margin: 6px 0; }
+      .tnc-body ul { margin: 6px 0 6px 20px; }
+      .tnc-body li { margin-bottom: 4px; }
+      html.dark .tnc-card { border-color: var(--card-border); }
 
       /* ── RESPONSIVE ── */
       @media (max-width: 600px) {
@@ -1436,18 +1526,11 @@
           padding: 20px 10px;
         }
 
-        /* Ko-fi: FAB en esquina inferior derecha */
-        .kofi-btn {
-          top: auto;
-          bottom: 20px;
-          right: 14px;
+        .header-action-btn {
+          width: 44px;
+          height: 44px;
         }
-        .kofi-img-wrap {
-          width: 50px;
-          height: 50px;
-          border-radius: 10px;
-        }
-        .kofi-tooltip {
+        .header-action-tooltip {
           right: calc(100% + 8px);
           font-size: 11px;
           padding: 3px 9px;
@@ -1461,6 +1544,35 @@
         <div>
           <p class="subtitle">Hentai For All</p>
           <h1>H4ALL<br />Comics</h1>
+        </div>
+        <div class="header-actions">
+          <a
+            href="https://ko-fi.com/ovejoide"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-action-btn"
+            aria-label="Ko-fi"
+          >
+            <span class="header-action-icon">
+              <img
+                src="https://ik.imagekit.io/rcbeujyg1/Assets/ko-fi-icon.svg?updatedAt=1779866205709"
+                alt="Ko-fi"
+              />
+            </span>
+            <span class="header-action-tooltip" data-i18n="kofiTooltip">Apóyame</span>
+          </a>
+          <button
+            class="header-action-btn"
+            onclick="abrirTerminos()"
+            aria-label="Términos y Condiciones"
+          >
+            <span class="header-action-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+              </svg>
+            </span>
+            <span class="header-action-tooltip" data-i18n="termsTooltip">Términos y Condiciones</span>
+          </button>
         </div>
       </div>
       <div class="accent-bar"></div>
@@ -1893,6 +2005,7 @@
           shareSuccess: "Thanks! We'll review your comic soon.",
           shareError: "Error sending. Please try again.",
           kofiTooltip: "Support me",
+          termsTooltip: "Terms & Conditions",
           results: (n) => `${n} result${n !== 1 ? "s" : ""} found`,
           idiomas: {
             en: "English",
@@ -1975,6 +2088,7 @@
           shareSuccess: "¡Gracias! Revisaremos tu cómic pronto.",
           shareError: "Error al enviar. Intenta de nuevo.",
           kofiTooltip: "Apóyame",
+          termsTooltip: "Términos y Condiciones",
           results: (n) =>
             `${n} resultado${n !== 1 ? "s" : ""} encontrado${n !== 1 ? "s" : ""}`,
           idiomas: {
@@ -2058,6 +2172,7 @@
           shareSuccess: "Obrigado! Vamos analisar em breve.",
           shareError: "Erro ao enviar. Tente novamente.",
           kofiTooltip: "Apoie-me",
+          termsTooltip: "Termos e Condições",
           results: (n) =>
             `${n} resultado${n !== 1 ? "s" : ""} encontrado${n !== 1 ? "s" : ""}`,
           idiomas: {
@@ -2939,6 +3054,22 @@
         }
       }
 
+      // ── TÉRMINOS Y CONDICIONES ──
+      function abrirTerminos() {
+        document.getElementById("tnc-overlay").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function cerrarTerminos() {
+        document.getElementById("tnc-overlay").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function cerrarTerminosOverlay(e) {
+        if (e.target === e.currentTarget) cerrarTerminos();
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") cerrarTerminos();
+      });
+
       cargarComics();
 
       // ── History API: back / forward del navegador ──
@@ -2969,20 +3100,46 @@
       });
     </script>
 
-    <a
-      href="https://ko-fi.com/ovejoide"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="kofi-btn"
-      aria-label="Apóyame en Ko-fi"
-    >
-      <span class="kofi-img-wrap">
-        <img
-          src="https://ik.imagekit.io/rcbeujyg1/Assets/ko-fi-icon.svg?updatedAt=1779866205709"
-          alt="Ko-fi"
-        />
-      </span>
-      <span class="kofi-tooltip" data-i18n="kofiTooltip">Apóyame</span>
-    </a>
+    <!-- Modal: Términos y Condiciones -->
+    <div class="tnc-overlay" id="tnc-overlay" onclick="cerrarTerminosOverlay(event)">
+      <div class="tnc-card">
+        <button class="tnc-close" onclick="cerrarTerminos()" aria-label="Cerrar">✕</button>
+        <div class="tnc-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+          </svg>
+          <span class="tnc-main-title">Términos y Condiciones</span>
+        </div>
+        <p class="tnc-meta">Versión 2026.3.3 · Última revisión: 27 de mayo de 2026 · Estatus: Vigente / Público</p>
+        <div class="tnc-body">
+          <p>Por favor, lea detenidamente este documento antes de acceder, utilizar, contribuir o interactuar con la plataforma <strong>H4ALL Comics</strong>. El acceso al sitio implica la aceptación formal, expresa e irrevocable de la totalidad de las cláusulas aquí escritas.</p>
+
+          <p class="tnc-section-title">1. Objeto, Existencia y Naturaleza</p>
+          <p>H4All Comics existe como repositorio, indexador y portal de distribución digital de cómics e ilustraciones de naturaleza explícita, de uso exclusivo para adultos (mayores de 18 años, o la edad legal de mayoría en la jurisdicción del usuario). Su único fin es proveer una infraestructura web optimizada para que autores independientes y usuarios autorizados publiquen, mantengan y visualicen material de arte secuencial para adultos.</p>
+
+          <p class="tnc-section-title">2. Naturaleza del Software — Licencia MIT</p>
+          <p>El código fuente, scripts, lógica de backend y base de datos se distribuyen bajo la <strong>Licencia MIT</strong>. Copyright (c) 2026 H4All Comics Development Team. Esta licencia se aplica <strong>exclusivamente al software</strong>. Los cómics, ilustraciones, textos y demás material artístico alojado en la página son privados y protegidos por derechos de autor; la permisividad MIT no se extiende a ellos bajo ninguna circunstancia.</p>
+
+          <p class="tnc-section-title">3. Política de Publicación y Administración</p>
+          <p>El equipo de administración se reserva el derecho de indexar, categorizar, pausar o dar de baja cualquier obra por motivos de mantenimiento u optimización. Todo cómic nuevo de usuarios no verificados ingresa en una cola de aislamiento (<em>Sandbox</em>) invisible al público hasta ser auditado manualmente en un plazo máximo de 24 horas. La plataforma no usa filtrado automatizado; toda subida es inspeccionada visualmente por el equipo antes de integrarse en producción.</p>
+          <p>Los enlaces externos compartidos mediante la función "Compartir" quedan sujetos a las normativas globales del sitio. Su uso para difundir material prohibido conlleva la rescisión permanente de la cuenta sin posibilidad de apelación.</p>
+
+          <p class="tnc-section-title">4. Política de Tolerancia Cero</p>
+          <p>Queda prohibida de forma irrevocable la subida o enlace de:</p>
+          <ul>
+            <li><strong>CSAM / CP:</strong> Cualquier detección notificará de forma automatizada al NCMEC y Europol.</li>
+            <li><strong>Estéticas infantiles en ficción (Loli / Shota):</strong> Prohibición total, independientemente de la narrativa o justificación del personaje.</li>
+            <li><strong>Violencia extrema (Gore / Snuff):</strong> Desmembramientos explícitos, tortura, mutilaciones o necrofilia que excedan los estándares del arte dramático de ficción.</li>
+            <li><strong>Fetiches de degradación biológica:</strong> Coprofagia, fluidos peligrosos o Vore extremo.</li>
+          </ul>
+
+          <p class="tnc-section-title">5. Derechos de Autor y Protocolo de Retirada (Takedown)</p>
+          <p>H4All Comics no reclama propiedad de los cómics de terceros y garantiza la atribución visible al creador con enlaces a sus canales oficiales. Todo artista titular puede solicitar la remoción definitiva de su obra mediante petición verbal (con verificación de identidad), escrita (correo o formulario) o legalizada (DMCA). La purga técnica completa se procesará en un máximo de <strong>12 horas</strong> tras confirmar la titularidad.</p>
+
+          <p class="tnc-section-title">6. Limitación de Responsabilidad y Jurisdicción</p>
+          <p>El software y la distribución se proveen <strong>"TAL CUAL"</strong>, sin garantías respecto a caídas del servidor, interrupciones técnicas o pérdida de datos por ataques cibernéticos. La administración se reserva el derecho de enmendar estos términos para adecuarse a normativas bancarias o regulatorias. El uso continuado del sitio tras la publicación de cambios constituye la aceptación íntegra del nuevo texto normativo.</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
