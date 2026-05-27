@@ -2482,11 +2482,9 @@
 
         const catalogo = document.getElementById("contenedor-comics");
 
-        if (fromHistory && catalogo.style.display !== "none") {
+        if (fromHistory && catalogo.style.display === "grid") {
           catalogo.classList.add("nav-forward-out");
-          await new Promise((r) =>
-            catalogo.addEventListener("animationend", r, { once: true })
-          );
+          await new Promise((r) => setTimeout(r, 190));
           catalogo.classList.remove("nav-forward-out");
         }
 
@@ -2633,7 +2631,7 @@
         visor.style.display = "block";
         if (fromHistory) {
           visor.classList.add("nav-forward-in");
-          visor.addEventListener("animationend", () => visor.classList.remove("nav-forward-in"), { once: true });
+          setTimeout(() => visor.classList.remove("nav-forward-in"), 280);
         }
         updateBtn(document.documentElement.classList.contains("dark"));
         contenedorPaginas.innerHTML = `<div class="loading-pages">${t("loading")}</div>`;
@@ -2825,16 +2823,16 @@
           window.scrollTo({ top: 0, behavior: animated ? "instant" : "smooth" });
           if (animated) {
             catalogo.classList.add("nav-back-in");
-            catalogo.addEventListener("animationend", () => catalogo.classList.remove("nav-back-in"), { once: true });
+            setTimeout(() => catalogo.classList.remove("nav-back-in"), 280);
           }
         }
 
-        if (animated && visor.style.display !== "none") {
+        if (animated && visor.style.display === "block") {
           visor.classList.add("nav-back-out");
-          visor.addEventListener("animationend", () => {
+          setTimeout(() => {
             visor.classList.remove("nav-back-out");
             mostrarCatalogo();
-          }, { once: true });
+          }, 190);
         } else {
           mostrarCatalogo();
         }
@@ -2952,13 +2950,17 @@
         const visor = document.getElementById("visor");
 
         if (state.view === "catalog") {
-          // Botón atrás: solo animar si el visor está visible
-          if (visor.style.display !== "none") {
+          // Botón atrás: animar solo si el visor está explícitamente visible
+          if (visor.style.display === "block") {
             volverALista(true);
+          } else if (visor.style.display !== "block") {
+            // Ya estamos en el catálogo, solo asegurar que se muestre
+            document.getElementById("contenedor-comics").style.display = "grid";
+            document.getElementById("toolbar").style.display = "flex";
           }
         } else if (state.view === "comic") {
-          // Botón adelante: solo animar si el visor está oculto
-          if (visor.style.display === "none") {
+          // Botón adelante: abrir cómic si no está ya en el visor
+          if (visor.style.display !== "block") {
             const comic = todosLosComics.find((c) => c.id === state.comicId);
             if (comic) abrirComic(comic, { fromHistory: true });
           }
