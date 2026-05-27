@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="view.css" />
     <link rel="stylesheet" href="tags.css" />
     <link rel="stylesheet" href="animations.css" />
+    <link rel="stylesheet" href="back.css" />
     <link rel="stylesheet" href="sharecomic.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1732,7 +1733,7 @@
 
     <div id="visor">
       <div class="visor-header">
-        <button class="btn-back" onclick="volverALista()">
+        <button class="btn-back" onclick="history.back()">
           <svg viewBox="0 0 10 16"><path d="M8 1L2 8l6 7" /></svg>
           <span data-i18n="back">Volver</span>
         </button>
@@ -2474,8 +2475,22 @@
       }
 
       // ── ABRIR COMIC ──
-      async function abrirComic(comic) {
-        document.getElementById("contenedor-comics").style.display = "none";
+      async function abrirComic(comic, { fromHistory = false } = {}) {
+        if (!fromHistory) {
+          history.pushState({ view: "comic", comicId: comic.id }, "");
+        }
+
+        const catalogo = document.getElementById("contenedor-comics");
+
+        if (fromHistory && catalogo.style.display !== "none") {
+          catalogo.classList.add("nav-forward-out");
+          await new Promise((r) =>
+            catalogo.addEventListener("animationend", r, { once: true })
+          );
+          catalogo.classList.remove("nav-forward-out");
+        }
+
+        catalogo.style.display = "none";
         document.getElementById("toolbar").style.display = "none";
         document.getElementById("filter-panel").style.display = "none";
         document.getElementById("search-panel").style.display = "none";
@@ -2616,6 +2631,10 @@
         pageCounter.classList.remove("ultima-pagina");
 
         visor.style.display = "block";
+        if (fromHistory) {
+          visor.classList.add("nav-forward-in");
+          visor.addEventListener("animationend", () => visor.classList.remove("nav-forward-in"), { once: true });
+        }
         updateBtn(document.documentElement.classList.contains("dark"));
         contenedorPaginas.innerHTML = `<div class="loading-pages">${t("loading")}</div>`;
 
@@ -2784,7 +2803,7 @@
         }
       }
 
-      function volverALista() {
+      function volverALista(animated = false) {
         if (scrollHandlerLectura) {
           window.removeEventListener("scroll", scrollHandlerLectura);
           scrollHandlerLectura = null;
@@ -2793,12 +2812,32 @@
           lastImgObserver.disconnect();
           lastImgObserver = null;
         }
-        document.getElementById("visor").style.display = "none";
-        document.getElementById("contenedor-comics").style.display = "grid";
-        document.getElementById("toolbar").style.display = "flex";
-        document.getElementById("filter-panel").style.display = "";
-        document.getElementById("search-panel").style.display = "";
-        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        const visor = document.getElementById("visor");
+        const catalogo = document.getElementById("contenedor-comics");
+
+        function mostrarCatalogo() {
+          visor.style.display = "none";
+          catalogo.style.display = "grid";
+          document.getElementById("toolbar").style.display = "flex";
+          document.getElementById("filter-panel").style.display = "";
+          document.getElementById("search-panel").style.display = "";
+          window.scrollTo({ top: 0, behavior: animated ? "instant" : "smooth" });
+          if (animated) {
+            catalogo.classList.add("nav-back-in");
+            catalogo.addEventListener("animationend", () => catalogo.classList.remove("nav-back-in"), { once: true });
+          }
+        }
+
+        if (animated && visor.style.display !== "none") {
+          visor.classList.add("nav-back-out");
+          visor.addEventListener("animationend", () => {
+            visor.classList.remove("nav-back-out");
+            mostrarCatalogo();
+          }, { once: true });
+        } else {
+          mostrarCatalogo();
+        }
       }
 
       // Duraciones en ms — deben coincidir exactamente con las del CSS
@@ -2902,6 +2941,29 @@
       }
 
       cargarComics();
+
+      // ── History API: back / forward del navegador ──
+      history.replaceState({ view: "catalog" }, "");
+
+      window.addEventListener("popstate", (e) => {
+        const state = e.state;
+        if (!state) return;
+
+        const visor = document.getElementById("visor");
+
+        if (state.view === "catalog") {
+          // Botón atrás: solo animar si el visor está visible
+          if (visor.style.display !== "none") {
+            volverALista(true);
+          }
+        } else if (state.view === "comic") {
+          // Botón adelante: solo animar si el visor está oculto
+          if (visor.style.display === "none") {
+            const comic = todosLosComics.find((c) => c.id === state.comicId);
+            if (comic) abrirComic(comic, { fromHistory: true });
+          }
+        }
+      });
     </script>
 
     <a

@@ -1,0 +1,33 @@
+/* ── Nav Back / Forward Animations ── */
+
+@keyframes navSlideOutRight {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(6%);   opacity: 0; }
+}
+@keyframes navSlideInFromLeft {
+  from { transform: translateX(-5%);  opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes navSlideOutLeft {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(-6%);  opacity: 0; }
+}
+@keyframes navSlideInFromRight {
+  from { transform: translateX(5%);   opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.nav-back-out {
+  animation: navSlideOutRight 180ms ease-in forwards;
+  pointer-events: none;
+}
+.nav-back-in {
+  animation: navSlideInFromLeft 280ms ease-out both;
+}
+.nav-forward-out {
+  animation: navSlideOutLeft 180ms ease-in forwards;
+  pointer-events: none;
+}
+.nav-forward-in {
+  animation: navSlideInFromRight 280ms ease-out both;
+}
