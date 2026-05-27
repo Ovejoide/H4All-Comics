@@ -1,0 +1,254 @@
+/* ═══════════════════════════════════════════════════
+   H4ALL COMICS — DARK MODE
+   Estética: tinta nocturna · papel envejecido oscuro
+   Toggle vía: <html class="dark">
+   ═══════════════════════════════════════════════════ */
+
+/* ── TOGGLE BUTTON (inyectar en el toolbar) ── */
+.btn-theme {
+  margin-left: auto;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--ink);
+  background: transparent;
+  border: 2px solid var(--ink);
+  padding: 4px 14px;
+  cursor: pointer;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+  text-transform: uppercase;
+}
+.btn-theme:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-theme .theme-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* ── DARK PALETTE ── */
+html.dark {
+  --ink: #e8e0d0; /* antes era el color oscuro, ahora es claro */
+  --paper: #141210; /* fondo principal: negro tinta */
+  --paper-dark: #1e1b17; /* toolbar y superficies secundarias */
+  --accent: #d94030; /* rojo — se mantiene, solo leve ajuste de brillo */
+  --accent-dark: #b03228;
+  --gold: #c9a84c; /* dorado — idéntico, se lucen bien en oscuro */
+  --shadow: rgba(0, 0, 0, 0.5);
+
+  /* Extras exclusivos del dark mode */
+  --card-bg: #1a1714; /* fondo de cards ligeramente más cálido que el body */
+  --card-border: #332e28; /* borde de cards: sutil, no duro */
+  --card-info-bg: #1a1714;
+  --text-muted: #7a7068;
+  --skeleton-base: #1e1b17;
+  --skeleton-shine: #2a2520;
+}
+
+/* ── TRANSICIÓN SUAVE AL CAMBIAR TEMA ── */
+html.dark body,
+html.dark header,
+html.dark .toolbar,
+html.dark .comic-card,
+html.dark .comic-card .card-info,
+html.dark .visor-header,
+html.dark #visor {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* ── BODY: textura de papel oscuro ── */
+html.dark body {
+  background-color: var(--paper);
+  color: var(--ink);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(255, 255, 255, 0.015) 28px,
+      rgba(255, 255, 255, 0.015) 29px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 28px,
+      rgba(255, 255, 255, 0.01) 28px,
+      rgba(255, 255, 255, 0.01) 29px
+    );
+}
+
+/* ── HEADER: más oscuro que el body, con patrón sutil ── */
+html.dark header {
+  background: #0a0908;
+  border-bottom-color: var(--card-border);
+}
+html.dark header::before {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgba(255, 255, 255, 0.02) 8px,
+    rgba(255, 255, 255, 0.02) 9px
+  );
+}
+
+/* Logo badge: acento rojo se mantiene */
+html.dark .logo-badge {
+  box-shadow: 3px 3px 0 var(--accent-dark);
+}
+
+/* ── TOOLBAR ── */
+html.dark .toolbar {
+  background: var(--paper-dark);
+  border-bottom-color: var(--card-border);
+  color: var(--ink);
+}
+
+/* Count badge: rojo igual */
+html.dark .count-badge {
+  background: var(--accent);
+}
+
+/* Botón de tema en dark: invertir contraste */
+html.dark .btn-theme {
+  color: var(--ink);
+  border-color: var(--card-border);
+}
+html.dark .btn-theme:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* ── GRID DE COMICS ── */
+html.dark .comic-card {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+}
+html.dark .comic-card:hover {
+  box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.8);
+  border-color: #4a4238;
+}
+html.dark .comic-card img {
+  filter: saturate(0.85) brightness(0.92);
+}
+html.dark .comic-card:hover img {
+  filter: saturate(1) brightness(1);
+}
+html.dark .comic-card .card-info {
+  background: var(--card-info-bg);
+  border-top-color: var(--card-border);
+}
+html.dark .comic-card h3 {
+  color: var(--ink);
+}
+html.dark .card-corner {
+  background: var(--accent);
+}
+
+/* ── SKELETONS EN DARK MODE ── */
+html.dark .skeleton-card {
+  border-color: var(--card-border);
+}
+html.dark .skeleton-img,
+html.dark .skeleton-text {
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-shine) 50%,
+    var(--skeleton-base) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* ── ERROR BOX ── */
+html.dark .error-box {
+  background: #1f1210;
+  border-color: var(--accent);
+}
+html.dark .error-box p {
+  color: #9a8e84;
+}
+html.dark .error-box code {
+  background: #2a1e1a;
+  color: var(--gold);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* ── VISOR ── */
+html.dark .visor-header {
+  background: #0a0908;
+  border-bottom-color: var(--accent);
+}
+html.dark .visor-title {
+  color: var(--ink);
+}
+html.dark .btn-back {
+  background: var(--accent);
+  color: #fff;
+}
+html.dark .btn-back:hover {
+  background: var(--accent-dark);
+}
+
+/* Páginas del cómic: borde más oscuro */
+html.dark .visor-pages img {
+  border-color: var(--card-border);
+  /* Ligero ajuste para no quemar el ojo en lectura nocturna */
+  filter: brightness(0.94) contrast(1.02);
+}
+
+/* Loading text en visor */
+html.dark .loading-pages {
+  color: var(--text-muted);
+}
+
+/* ── ACCENT BAR: idéntica (ya usa variables) ── */
+/* No necesita overrides, hereda --accent y --gold automáticamente */
+
+/* ── SCROLLBAR PERSONALIZADO (Webkit) ── */
+html.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: var(--paper-dark);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #3a342c;
+  border-radius: 0;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dark);
+}
+
+/* ── PREFERENCIA DEL SISTEMA (opcional, activa dark automáticamente) ──
+   Comenta este bloque si prefieres solo el toggle manual.           */
+@media (prefers-color-scheme: dark) {
+  html:not(.light) {
+    --ink: #e8e0d0;
+    --paper: #141210;
+    --paper-dark: #1e1b17;
+    --accent: #d94030;
+    --accent-dark: #b03228;
+    --gold: #c9a84c;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --card-bg: #1a1714;
+    --card-border: #332e28;
+    --card-info-bg: #1a1714;
+    --text-muted: #7a7068;
+    --skeleton-base: #1e1b17;
+    --skeleton-shine: #2a2520;
+  }
+}

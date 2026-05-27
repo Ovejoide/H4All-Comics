@@ -1,0 +1,113 @@
+/* ══════════════════════════════════════════
+   H4ALL COMICS — animations.css
+   Animaciones de lectura y de fin de cómic
+   ══════════════════════════════════════════ */
+
+/* ── PÁGINAS DEL VISOR ── */
+.pagina-comic {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  margin-bottom: 20px;
+}
+.pagina-comic.aparecer {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0);
+}
+
+
+/* ══════════════════════════════════════════
+   KEYFRAMES
+   ══════════════════════════════════════════ */
+
+/* Subida suave con fade */
+@keyframes finSubir {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Entrada del botón: rebote elástico desde abajo */
+@keyframes btnEntrada {
+  0%   { opacity: 0;  transform: translateY(24px)  scale(0.78); }
+  52%  { opacity: 1;  transform: translateY(-8px)   scale(1.08); }
+  74%  { transform: translateY(3px)   scale(0.97); }
+  88%  { transform: translateY(-2px)  scale(1.02); }
+  100% { opacity: 1;  transform: translateY(0)      scale(1);    }
+}
+
+/* Salida del botón: compresión → disparo hacia arriba + fade */
+@keyframes btnSalida {
+  0%   { opacity: 1;  transform: scale(1)    translateY(0);     }
+  16%  { opacity: 1;  transform: scale(0.91) translateY(7px);   }
+  100% { opacity: 0;  transform: scale(0.68) translateY(-48px); }
+}
+
+
+/* ══════════════════════════════════════════
+   SECCIÓN "COMIC TERMINADO" — entrada escalonada
+   ══════════════════════════════════════════ */
+
+.comic-fin {
+  animation: finSubir 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.comic-fin-bar {
+  animation: finSubir 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+}
+
+.comic-fin-title {
+  animation: finSubir 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.13s both;
+}
+
+.comic-fin-sub {
+  animation: finSubir 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
+}
+
+
+/* ══════════════════════════════════════════
+   BOTÓN "VOLVER AL PRINCIPIO"
+   ══════════════════════════════════════════ */
+
+/* Entrada: rebote elástico con delay para que llegue tras el texto */
+.btn-volver-inicio {
+  animation: btnEntrada 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.38s both;
+}
+
+/* Salida: clase añadida por JS al hacer clic */
+.btn-volver-inicio.saliendo {
+  animation: btnSalida 0.36s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+  pointer-events: none;
+  transition: none !important;
+}
+
+
+/* ══════════════════════════════════════════
+   CATÁLOGO — entrada y salida
+   ══════════════════════════════════════════ */
+
+@keyframes catalogoEntrar {
+  from { opacity: 0; transform: translateY(22px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+@keyframes catalogoSalir {
+  from { opacity: 1; transform: scale(1);    }
+  to   { opacity: 0; transform: scale(0.97); }
+}
+
+#contenedor-comics.catalogo-apareciendo {
+  animation: catalogoEntrar 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#contenedor-comics.catalogo-saliendo {
+  animation: catalogoSalir 0.16s ease-out forwards;
+  pointer-events: none;
+}

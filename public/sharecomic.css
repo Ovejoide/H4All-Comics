@@ -1,0 +1,253 @@
+/* ══════════════════════════════════════════
+   H4ALL COMICS — sharecomic.css
+   Panel "Comparte tu Cómic"
+   ══════════════════════════════════════════ */
+
+/* Entrada: sube desde abajo con ligero scale */
+@keyframes shareEntrada {
+  from { opacity: 0; transform: translateY(22px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* Salida: fade + scale suave, sin translate para no empujar el layout */
+@keyframes shareSalida {
+  from { opacity: 1; transform: scale(1);    }
+  to   { opacity: 0; transform: scale(0.97); }
+}
+
+
+/* ── Botón toolbar ── */
+.btn-share-toggle {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  background: transparent;
+  border: 2px solid var(--gold);
+  padding: 4px 14px;
+  cursor: pointer;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.18s,
+    box-shadow 0.18s;
+}
+.btn-share-toggle svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  flex-shrink: 0;
+}
+.btn-share-toggle:hover,
+.btn-share-toggle.active {
+  background: var(--gold);
+  color: var(--ink);
+  transform: scale(1.05);
+  box-shadow: 2px 2px 0 #a07a20;
+}
+
+html.dark .btn-share-toggle {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+html.dark .btn-share-toggle:hover,
+html.dark .btn-share-toggle.active {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+
+/* ── Panel contenedor ── */
+.share-panel {
+  display: none;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+.share-panel.open {
+  display: block;
+  animation: shareEntrada 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.share-panel.cerrando {
+  display: block;
+  animation: shareSalida 0.16s ease-out forwards;
+  pointer-events: none;
+}
+
+
+/* ── Inner box ── */
+.share-panel-inner {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  padding: 36px 40px 32px;
+}
+
+html.dark .share-panel-inner {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+}
+
+
+/* ── Encabezado ── */
+.share-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 28px;
+  letter-spacing: 4px;
+  color: var(--ink);
+  margin: 0 0 6px;
+  line-height: 1;
+}
+.share-sub {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: 14px;
+  color: #888;
+  font-style: italic;
+  margin: 0 0 26px;
+}
+
+html.dark .share-title { color: var(--ink); }
+html.dark .share-sub   { color: var(--text-muted); }
+
+
+/* ── Campos ── */
+.share-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 18px;
+}
+.share-label {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+}
+.share-input {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: 15px;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid rgba(13, 13, 13, 0.25);
+  padding: 6px 0;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+.share-input:focus {
+  border-bottom-color: var(--accent);
+}
+.share-input::placeholder {
+  color: rgba(13, 13, 13, 0.3);
+  font-style: italic;
+}
+.share-textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+html.dark .share-input {
+  color: var(--ink);
+  border-bottom-color: rgba(232, 224, 208, 0.25);
+}
+html.dark .share-input:focus {
+  border-bottom-color: var(--accent);
+}
+html.dark .share-input::placeholder {
+  color: rgba(232, 224, 208, 0.3);
+}
+
+
+/* ── Acciones ── */
+.share-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.share-submit {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 14px;
+  letter-spacing: 2.5px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 28px;
+  cursor: pointer;
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 var(--accent-dark);
+  transition: background 0.18s, transform 0.15s, box-shadow 0.15s;
+}
+.share-submit:hover:not(:disabled) {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 3px 5px 0 var(--accent-dark);
+}
+.share-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.share-cancel {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 14px;
+  letter-spacing: 2.5px;
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid rgba(13, 13, 13, 0.25);
+  padding: 10px 28px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: border-color 0.18s, color 0.18s;
+}
+.share-cancel:hover {
+  border-color: var(--ink);
+}
+
+html.dark .share-cancel {
+  color: var(--ink);
+  border-color: rgba(232, 224, 208, 0.25);
+}
+html.dark .share-cancel:hover {
+  border-color: var(--ink);
+}
+
+
+/* ── Mensajes de estado ── */
+.share-msg {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: 14px;
+  margin-top: 14px;
+  min-height: 20px;
+  font-style: italic;
+}
+.share-msg--ok  { color: #2a8a3e; }
+.share-msg--err { color: var(--accent); }
+
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .share-panel {
+    padding: 16px 16px 40px;
+  }
+  .share-panel-inner {
+    padding: 20px 16px;
+  }
+  .share-title {
+    font-size: 22px;
+    letter-spacing: 3px;
+  }
+  .share-actions {
+    flex-direction: column;
+  }
+  .share-submit,
+  .share-cancel {
+    width: 100%;
+    text-align: center;
+  }
+}
