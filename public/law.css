@@ -1,0 +1,129 @@
+/* ── Términos y Condiciones — Modal ── */
+
+@keyframes tncOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes tncOverlayOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes tncCardIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+@keyframes tncCardOut {
+  from { opacity: 1; transform: translateY(0)    scale(1);    }
+  to   { opacity: 0; transform: translateY(28px) scale(0.96); }
+}
+
+.tnc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tnc-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+  animation: tncOverlayIn 220ms ease-out both;
+}
+
+.tnc-overlay.open .tnc-card {
+  animation: tncCardIn 300ms cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+.tnc-overlay.closing {
+  animation: tncOverlayOut 200ms ease-in forwards;
+  pointer-events: none;
+}
+
+.tnc-overlay.closing .tnc-card {
+  animation: tncCardOut 200ms ease-in forwards;
+}
+
+.tnc-card {
+  background: var(--paper);
+  color: var(--ink);
+  max-width: 780px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: 4px;
+  padding: 44px 44px 40px;
+  position: relative;
+  border: 2px solid var(--ink);
+}
+
+.tnc-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--ink);
+  line-height: 1;
+  padding: 4px 8px;
+  font-family: sans-serif;
+  transition: opacity 0.15s;
+}
+.tnc-close:hover { opacity: 0.5; }
+
+.tnc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.tnc-main-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 30px;
+  letter-spacing: 3px;
+  line-height: 1;
+}
+
+.tnc-meta {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  letter-spacing: 0.5px;
+}
+
+.tnc-section-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 15px;
+  letter-spacing: 2.5px;
+  margin: 28px 0 8px;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 4px;
+}
+
+.tnc-body {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.tnc-body p  { margin: 6px 0; }
+.tnc-body ul { margin: 6px 0 6px 20px; }
+.tnc-body li { margin-bottom: 4px; }
+
+html.dark .tnc-card { border-color: var(--card-border); }
+
+@media (max-width: 600px) {
+  .tnc-card {
+    padding: 32px 20px 28px;
+    max-height: 92vh;
+  }
+  .tnc-main-title { font-size: 24px; }
+}

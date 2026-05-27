@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="tags.css" />
     <link rel="stylesheet" href="animations.css" />
     <link rel="stylesheet" href="back.css" />
+    <link rel="stylesheet" href="law.css" />
     <link rel="stylesheet" href="sharecomic.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1365,82 +1366,7 @@
         transform: translateY(-50%) translateX(0);
       }
 
-      /* ── MODAL TÉRMINOS Y CONDICIONES ── */
-      .tnc-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.78);
-        z-index: 10000;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-      }
-      .tnc-overlay.open {
-        display: flex;
-      }
-      .tnc-card {
-        background: var(--paper);
-        color: var(--ink);
-        max-width: 780px;
-        width: 100%;
-        max-height: 88vh;
-        overflow-y: auto;
-        border-radius: 4px;
-        padding: 44px 44px 40px;
-        position: relative;
-        border: 2px solid var(--ink);
-      }
-      .tnc-close {
-        position: absolute;
-        top: 14px;
-        right: 16px;
-        background: none;
-        border: none;
-        font-size: 22px;
-        cursor: pointer;
-        color: var(--ink);
-        line-height: 1;
-        padding: 4px 8px;
-        font-family: sans-serif;
-      }
-      .tnc-close:hover { opacity: 0.6; }
-      .tnc-header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 6px;
-      }
-      .tnc-main-title {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 30px;
-        letter-spacing: 3px;
-        line-height: 1;
-      }
-      .tnc-meta {
-        font-family: "Crimson Pro", Georgia, serif;
-        font-size: 12px;
-        color: var(--text-muted);
-        margin-bottom: 28px;
-        letter-spacing: 0.5px;
-      }
-      .tnc-section-title {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 15px;
-        letter-spacing: 2.5px;
-        margin: 28px 0 8px;
-        border-bottom: 1px solid var(--accent);
-        padding-bottom: 4px;
-      }
-      .tnc-body {
-        font-family: "Crimson Pro", Georgia, serif;
-        font-size: 15px;
-        line-height: 1.75;
-      }
-      .tnc-body p { margin: 6px 0; }
-      .tnc-body ul { margin: 6px 0 6px 20px; }
-      .tnc-body li { margin-bottom: 4px; }
-      html.dark .tnc-card { border-color: var(--card-border); }
+      /* tnc styles → law.css */
 
       /* ── RESPONSIVE ── */
       @media (max-width: 600px) {
@@ -3056,12 +2982,19 @@
 
       // ── TÉRMINOS Y CONDICIONES ──
       function abrirTerminos() {
-        document.getElementById("tnc-overlay").classList.add("open");
+        const overlay = document.getElementById("tnc-overlay");
+        overlay.classList.remove("closing");
+        overlay.classList.add("open");
         document.body.style.overflow = "hidden";
       }
       function cerrarTerminos() {
-        document.getElementById("tnc-overlay").classList.remove("open");
-        document.body.style.overflow = "";
+        const overlay = document.getElementById("tnc-overlay");
+        if (!overlay.classList.contains("open")) return;
+        overlay.classList.add("closing");
+        setTimeout(() => {
+          overlay.classList.remove("open", "closing");
+          document.body.style.overflow = "";
+        }, 210);
       }
       function cerrarTerminosOverlay(e) {
         if (e.target === e.currentTarget) cerrarTerminos();
