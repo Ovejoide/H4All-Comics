@@ -548,7 +548,6 @@
         color: #999;
       }
 
-
       /* ── FILTROS ── */
       .filter-panel {
         background: var(--paper-dark);
@@ -556,27 +555,149 @@
         padding: 0 40px;
         overflow: hidden;
         max-height: 0;
-        transition: max-height 0.35s ease, padding 0.35s ease;
+        transition:
+          max-height 0.35s ease,
+          padding 0.35s ease;
       }
-      .filter-panel.open { max-height: 600px; padding: 20px 40px; }
-      .filter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
-      .filter-group { display: flex; flex-direction: column; gap: 5px; }
-      .filter-label { font-family: "Bebas Neue", sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; }
-      .filter-select { font-family: "Crimson Pro", Georgia, serif; font-size: 14px; background: var(--paper); color: var(--ink); border: 1px solid var(--ink); border-radius: 2px; padding: 5px 28px 5px 8px; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230d0d0d' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; width: 100%; }
-      html.dark .filter-select { background-color: #1a1714; border-color: var(--card-border); color: var(--ink); }
-      .filter-actions { display: flex; gap: 10px; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--ink); flex-wrap: wrap; }
-      html.dark .filter-actions { border-top-color: var(--card-border); }
-      .filter-active-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-      .filter-active-tag { font-family: "Bebas Neue", sans-serif; font-size: 11px; letter-spacing: 1px; padding: 3px 8px; border-radius: 2px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; border: none; }
-      .filter-active-tag:hover { background: var(--accent-dark); }
-      .btn-clear-filters { font-family: "Bebas Neue", sans-serif; font-size: 12px; letter-spacing: 1.5px; background: transparent; border: 1px solid var(--ink); color: var(--ink); padding: 3px 10px; border-radius: 2px; cursor: pointer; }
-      .btn-clear-filters:hover { background: var(--ink); color: var(--paper); }
-      html.dark .btn-clear-filters { border-color: var(--card-border); color: var(--ink); }
-      .btn-filter-toggle { font-family: "Bebas Neue", sans-serif; font-size: 14px; letter-spacing: 2px; color: var(--ink); background: transparent; border: 2px solid var(--ink); padding: 4px 14px; cursor: pointer; border-radius: 2px; display: flex; align-items: center; gap: 7px; transition: background 0.2s, color 0.2s; }
-      .btn-filter-toggle:hover, .btn-filter-toggle.active { background: var(--ink); color: var(--paper); }
-      html.dark .btn-filter-toggle { border-color: var(--card-border); }
-      .filter-dot { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 10px; }
-      .no-results { grid-column: 1/-1; padding: 60px 20px; text-align: center; font-family: "Bebas Neue", sans-serif; font-size: 24px; letter-spacing: 3px; color: #999; }
+      .filter-panel.open {
+        max-height: 600px;
+        padding: 20px 40px;
+      }
+      .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 14px;
+      }
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .filter-label {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: var(--accent);
+        text-transform: uppercase;
+      }
+      .filter-select {
+        font-family: "Crimson Pro", Georgia, serif;
+        font-size: 14px;
+        background: var(--paper);
+        color: var(--ink);
+        border: 1px solid var(--ink);
+        border-radius: 2px;
+        padding: 5px 28px 5px 8px;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230d0d0d' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        width: 100%;
+      }
+      html.dark .filter-select {
+        background-color: #1a1714;
+        border-color: var(--card-border);
+        color: var(--ink);
+      }
+      .filter-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--ink);
+        flex-wrap: wrap;
+      }
+      html.dark .filter-actions {
+        border-top-color: var(--card-border);
+      }
+      .filter-active-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .filter-active-tag {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 11px;
+        letter-spacing: 1px;
+        padding: 3px 8px;
+        border-radius: 2px;
+        background: var(--accent);
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        border: none;
+      }
+      .filter-active-tag:hover {
+        background: var(--accent-dark);
+      }
+      .btn-clear-filters {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        background: transparent;
+        border: 1px solid var(--ink);
+        color: var(--ink);
+        padding: 3px 10px;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+      .btn-clear-filters:hover {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      html.dark .btn-clear-filters {
+        border-color: var(--card-border);
+        color: var(--ink);
+      }
+      .btn-filter-toggle {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 14px;
+        letter-spacing: 2px;
+        color: var(--ink);
+        background: transparent;
+        border: 2px solid var(--ink);
+        padding: 4px 14px;
+        cursor: pointer;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .btn-filter-toggle:hover,
+      .btn-filter-toggle.active {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      html.dark .btn-filter-toggle {
+        border-color: var(--card-border);
+      }
+      .filter-dot {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-size: 10px;
+      }
+      .no-results {
+        grid-column: 1/-1;
+        padding: 60px 20px;
+        text-align: center;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 24px;
+        letter-spacing: 3px;
+        color: #999;
+      }
       /* ── DARK MODE ── */
       .btn-theme {
         font-family: "Bebas Neue", sans-serif;
@@ -795,7 +916,6 @@
         border-color: rgba(232, 224, 208, 0.5);
       }
 
-
       @media (prefers-color-scheme: dark) {
         html:not(.light) {
           --ink: #e8e0d0;
@@ -828,7 +948,9 @@
         display: flex;
         align-items: center;
         gap: 7px;
-        transition: background 0.2s, color 0.2s;
+        transition:
+          background 0.2s,
+          color 0.2s;
       }
       .btn-search-toggle:hover,
       .btn-search-toggle.active {
@@ -852,9 +974,14 @@
         padding: 0 40px;
         overflow: hidden;
         max-height: 0;
-        transition: max-height 0.32s ease, padding 0.32s ease;
+        transition:
+          max-height 0.32s ease,
+          padding 0.32s ease;
       }
-      .search-panel.open { max-height: 120px; padding: 16px 40px; }
+      .search-panel.open {
+        max-height: 120px;
+        padding: 16px 40px;
+      }
       .search-wrap {
         position: relative;
         display: flex;
@@ -882,7 +1009,9 @@
         background: var(--paper);
         color: var(--ink);
         outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
       }
       .search-input::placeholder {
         color: rgba(13, 13, 13, 0.3);
@@ -905,9 +1034,14 @@
         line-height: 1;
         padding: 4px 6px;
         border-radius: 2px;
-        transition: opacity 0.15s, background 0.15s;
+        transition:
+          opacity 0.15s,
+          background 0.15s;
       }
-      .search-clear:hover { opacity: 1; background: rgba(13, 13, 13, 0.08); }
+      .search-clear:hover {
+        opacity: 1;
+        background: rgba(13, 13, 13, 0.08);
+      }
       .search-count {
         font-family: "Bebas Neue", sans-serif;
         font-size: 11px;
@@ -916,16 +1050,26 @@
         margin-top: 8px;
         min-height: 14px;
       }
-      html.dark .search-panel { border-bottom-color: var(--card-border); }
+      html.dark .search-panel {
+        border-bottom-color: var(--card-border);
+      }
       html.dark .search-input {
         background: #1a1714;
         border-color: var(--card-border);
         color: var(--ink);
       }
-      html.dark .search-input::placeholder { color: rgba(232, 224, 208, 0.25); }
-      html.dark .search-icon-input { stroke: var(--ink); }
-      html.dark .search-clear { color: var(--ink); }
-      html.dark .search-clear:hover { background: rgba(232, 224, 208, 0.08); }
+      html.dark .search-input::placeholder {
+        color: rgba(232, 224, 208, 0.25);
+      }
+      html.dark .search-icon-input {
+        stroke: var(--ink);
+      }
+      html.dark .search-clear {
+        color: var(--ink);
+      }
+      html.dark .search-clear:hover {
+        background: rgba(232, 224, 208, 0.08);
+      }
 
       /* ── CONTADOR DE PÁGINAS ── */
       .page-counter {
@@ -939,7 +1083,10 @@
         border-radius: 2px;
         white-space: nowrap;
         flex-shrink: 0;
-        transition: color 0.25s, background 0.25s, border-color 0.25s;
+        transition:
+          color 0.25s,
+          background 0.25s,
+          border-color 0.25s;
       }
       .page-counter.ultima-pagina {
         color: var(--accent);
@@ -1005,7 +1152,10 @@
         gap: 10px;
         margin-top: 6px;
         box-shadow: 3px 3px 0 var(--accent-dark);
-        transition: background 0.18s, transform 0.15s, box-shadow 0.15s;
+        transition:
+          background 0.18s,
+          transform 0.15s,
+          box-shadow 0.15s;
       }
       .btn-volver-inicio:hover {
         background: var(--accent-dark);
@@ -1022,12 +1172,21 @@
       html.dark .comic-fin {
         border-top-color: var(--card-border);
       }
-      html.dark .comic-fin-title { color: var(--ink); }
-      html.dark .comic-fin-sub { color: var(--text-muted); }
+      html.dark .comic-fin-title {
+        color: var(--ink);
+      }
+      html.dark .comic-fin-sub {
+        color: var(--text-muted);
+      }
 
       /* ── SELECTOR DE IDIOMA ── */
-      .lang-switcher { position: relative; flex-shrink: 0; }
-      .toolbar .btn-share-toggle { margin-left: auto; }
+      .lang-switcher {
+        position: relative;
+        flex-shrink: 0;
+      }
+      .toolbar .btn-share-toggle {
+        margin-left: auto;
+      }
       .btn-lang {
         font-family: "Bebas Neue", sans-serif;
         font-size: 14px;
@@ -1042,13 +1201,19 @@
         align-items: center;
         gap: 7px;
         white-space: nowrap;
-        transition: background 0.2s, color 0.2s;
+        transition:
+          background 0.2s,
+          color 0.2s;
       }
-      .btn-lang:hover, .btn-lang.open {
+      .btn-lang:hover,
+      .btn-lang.open {
         background: var(--ink);
         color: var(--paper);
       }
-      .btn-lang .lang-flag { font-size: 17px; line-height: 1; }
+      .btn-lang .lang-flag {
+        font-size: 17px;
+        line-height: 1;
+      }
       .lang-dropdown {
         position: absolute;
         top: calc(100% + 6px);
@@ -1062,7 +1227,9 @@
         min-width: 155px;
         box-shadow: 4px 4px 0 rgba(13, 13, 13, 0.18);
       }
-      .lang-dropdown.open { display: flex; }
+      .lang-dropdown.open {
+        display: flex;
+      }
       .lang-option {
         font-family: "Bebas Neue", sans-serif;
         font-size: 13px;
@@ -1076,20 +1243,47 @@
         border: none;
         background: transparent;
         text-align: left;
-        transition: background 0.15s, color 0.15s;
+        transition:
+          background 0.15s,
+          color 0.15s;
       }
-      .lang-option:hover { background: var(--accent); color: #fff; }
-      .lang-option.active { color: var(--accent); }
-      .lang-option.active:hover { color: #fff; }
-      .lang-flag-big { font-size: 19px; line-height: 1; }
-      html.dark .btn-lang { border-color: var(--card-border); color: var(--ink); }
-      html.dark .btn-lang:hover, html.dark .btn-lang.open {
-        background: var(--ink); color: var(--paper);
+      .lang-option:hover {
+        background: var(--accent);
+        color: #fff;
       }
-      html.dark .lang-dropdown { background: #1a1714; border-color: var(--card-border); }
-      html.dark .lang-option { color: var(--ink); }
-      html.dark .lang-option:hover { background: var(--accent); color: #fff; }
-      html.dark .lang-option.active { color: var(--accent); }
+      .lang-option.active {
+        color: var(--accent);
+      }
+      .lang-option.active:hover {
+        color: #fff;
+      }
+      .lang-flag-big {
+        font-size: 19px;
+        line-height: 1;
+      }
+      html.dark .btn-lang {
+        border-color: var(--card-border);
+        color: var(--ink);
+      }
+      html.dark .btn-lang:hover,
+      html.dark .btn-lang.open {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      html.dark .lang-dropdown {
+        background: #1a1714;
+        border-color: var(--card-border);
+      }
+      html.dark .lang-option {
+        color: var(--ink);
+      }
+      html.dark .lang-option:hover {
+        background: var(--accent);
+        color: #fff;
+      }
+      html.dark .lang-option.active {
+        color: var(--accent);
+      }
 
       /* ── KO-FI ── */
       .kofi-btn {
@@ -1108,7 +1302,10 @@
         overflow: hidden;
         border: none;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease,
+          border-color 0.18s ease;
       }
       .kofi-img-wrap img {
         width: 100%;
@@ -1135,7 +1332,9 @@
         white-space: nowrap;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.18s, transform 0.18s;
+        transition:
+          opacity 0.18s,
+          transform 0.18s;
         box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
       }
       .kofi-tooltip::after {
@@ -1154,7 +1353,9 @@
 
       /* ── RESPONSIVE ── */
       @media (max-width: 600px) {
-        header { padding: 32px 20px 24px; }
+        header {
+          padding: 32px 20px 24px;
+        }
 
         #contenedor-comics {
           padding: 20px;
@@ -1166,40 +1367,73 @@
           padding: 10px 16px;
           gap: 8px;
         }
-        .toolbar > span[data-i18n] { display: none; }
+        .toolbar > span[data-i18n] {
+          display: none;
+        }
         [data-i18n="lblFilters"],
         [data-i18n="lblSearch"],
         [data-i18n="lblShare"],
         .lang-name,
-        .btn-theme-label { display: none; }
+        .btn-theme-label {
+          display: none;
+        }
         .btn-filter-toggle,
         .btn-search-toggle,
         .btn-share-toggle,
         .btn-lang,
-        .btn-theme { padding: 6px 10px; }
-        .filter-panel { padding: 0 16px; }
-        .filter-panel.open { padding: 16px; }
-        .search-panel { padding: 0 16px; }
-        .search-panel.open { padding: 14px 16px; }
+        .btn-theme {
+          padding: 6px 10px;
+        }
+        .filter-panel {
+          padding: 0 16px;
+        }
+        .filter-panel.open {
+          padding: 16px;
+        }
+        .search-panel {
+          padding: 0 16px;
+        }
+        .search-panel.open {
+          padding: 14px 16px;
+        }
 
         /* ── Visor header móvil ── */
         .visor-header {
           padding: 10px 16px;
           gap: 10px;
         }
-        .visor-title { font-size: 18px; }
-        .page-counter { font-size: 11px; padding: 3px 8px; }
+        .visor-title {
+          font-size: 18px;
+        }
+        .page-counter {
+          font-size: 11px;
+          padding: 3px 8px;
+        }
         .visor-header .lang-name,
-        .visor-header .btn-theme-label { display: none; }
+        .visor-header .btn-theme-label {
+          display: none;
+        }
         .visor-header .btn-lang,
         .visor-header .btn-share-toggle,
-        .visor-header .btn-theme { padding: 6px 10px; flex-shrink: 0; }
-  
-        .comic-fin { padding: 40px 16px 60px; }
-        .comic-fin-title { font-size: 30px; letter-spacing: 3px; }
+        .visor-header .btn-theme {
+          padding: 6px 10px;
+          flex-shrink: 0;
+        }
 
-        .visor-info-box { grid-template-columns: 1fr; }
-        .visor-pages { padding: 20px 10px; }
+        .comic-fin {
+          padding: 40px 16px 60px;
+        }
+        .comic-fin-title {
+          font-size: 30px;
+          letter-spacing: 3px;
+        }
+
+        .visor-info-box {
+          grid-template-columns: 1fr;
+        }
+        .visor-pages {
+          padding: 20px 10px;
+        }
 
         /* Ko-fi: FAB en esquina inferior derecha */
         .kofi-btn {
@@ -1235,21 +1469,44 @@
       <span data-i18n="collection">Colección</span>
       <span class="count-badge" id="count-badge">—</span>
       <span data-i18n="titles">títulos</span>
-      <button class="btn-filter-toggle" id="btn-filtros" onclick="toggleFiltros()">
+      <button
+        class="btn-filter-toggle"
+        id="btn-filtros"
+        onclick="toggleFiltros()"
+      >
         ⊟ <span data-i18n="lblFilters">Filtros</span>
-        <span class="filter-dot" id="filter-dot" style="display:none">0</span>
+        <span class="filter-dot" id="filter-dot" style="display: none">0</span>
       </button>
-      <button class="btn-search-toggle" id="btn-buscar" onclick="toggleBuscador()">
-        <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="7" /><line x1="16.5" y1="16.5" x2="22" y2="22" />
+      <button
+        class="btn-search-toggle"
+        id="btn-buscar"
+        onclick="toggleBuscador()"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <line x1="16.5" y1="16.5" x2="22" y2="22" />
         </svg>
         <span data-i18n="lblSearch">Buscar</span>
       </button>
-      <button class="btn-share-toggle" id="btn-compartir-toolbar" onclick="toggleCompartir()">
-        <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-          <polyline points="16 6 12 2 8 6"/>
-          <line x1="12" y1="2" x2="12" y2="15"/>
+      <button
+        class="btn-share-toggle"
+        id="btn-compartir-toolbar"
+        onclick="toggleCompartir()"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+          <polyline points="16 6 12 2 8 6" />
+          <line x1="12" y1="2" x2="12" y2="15" />
         </svg>
         <span data-i18n="lblShare">Compartir</span>
       </button>
@@ -1262,7 +1519,11 @@
           <button class="lang-option" data-lang="en" onclick="selectLang('en')">
             <span class="lang-flag-big">🇺🇸</span> English
           </button>
-          <button class="lang-option active" data-lang="es" onclick="selectLang('es')">
+          <button
+            class="lang-option active"
+            data-lang="es"
+            onclick="selectLang('es')"
+          >
             <span class="lang-flag-big">🇪🇸</span> Español
           </button>
           <button class="lang-option" data-lang="pt" onclick="selectLang('pt')">
@@ -1280,31 +1541,51 @@
       <div class="filter-grid">
         <div class="filter-group">
           <label class="filter-label" data-i18n="filterGenre">Género</label>
-          <select class="filter-select" id="f-genero" onchange="aplicarFiltros()">
+          <select
+            class="filter-select"
+            id="f-genero"
+            onchange="aplicarFiltros()"
+          >
             <option value="" data-i18n="filterAll">Todos</option>
           </select>
         </div>
         <div class="filter-group">
           <label class="filter-label" data-i18n="filterWriter">Escritor</label>
-          <select class="filter-select" id="f-escritor" onchange="aplicarFiltros()">
+          <select
+            class="filter-select"
+            id="f-escritor"
+            onchange="aplicarFiltros()"
+          >
             <option value="" data-i18n="filterAll">Todos</option>
           </select>
         </div>
         <div class="filter-group">
           <label class="filter-label" data-i18n="filterArtist">Dibujante</label>
-          <select class="filter-select" id="f-dibujante" onchange="aplicarFiltros()">
+          <select
+            class="filter-select"
+            id="f-dibujante"
+            onchange="aplicarFiltros()"
+          >
             <option value="" data-i18n="filterAll">Todos</option>
           </select>
         </div>
         <div class="filter-group">
           <label class="filter-label" data-i18n="filterSeries">Serie</label>
-          <select class="filter-select" id="f-series" onchange="aplicarFiltros()">
+          <select
+            class="filter-select"
+            id="f-series"
+            onchange="aplicarFiltros()"
+          >
             <option value="" data-i18n="filterAllF">Todas</option>
           </select>
         </div>
         <div class="filter-group">
           <label class="filter-label" data-i18n="filterLang">Idioma</label>
-          <select class="filter-select" id="f-idioma" onchange="aplicarFiltros()">
+          <select
+            class="filter-select"
+            id="f-idioma"
+            onchange="aplicarFiltros()"
+          >
             <option value="" data-i18n="filterAll">Todos</option>
           </select>
         </div>
@@ -1315,29 +1596,60 @@
           </select>
         </div>
       </div>
-      <div class="filter-actions" id="filter-actions" style="display:none">
-        <span style="font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;color:var(--accent)" data-i18n="activeFilters">Filtros activos:</span>
+      <div class="filter-actions" id="filter-actions" style="display: none">
+        <span
+          style="
+            font-family: &quot;Bebas Neue&quot;, sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--accent);
+          "
+          data-i18n="activeFilters"
+          >Filtros activos:</span
+        >
         <div class="filter-active-tags" id="filter-active-tags"></div>
-        <button class="btn-clear-filters" onclick="limpiarFiltros()" data-i18n="clearFilters">✕ Limpiar</button>
+        <button
+          class="btn-clear-filters"
+          onclick="limpiarFiltros()"
+          data-i18n="clearFilters"
+        >
+          ✕ Limpiar
+        </button>
       </div>
     </div>
 
     <!-- Panel de búsqueda -->
     <div class="search-panel" id="search-panel">
       <div class="search-wrap">
-        <svg class="search-icon-input" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="7" /><line x1="16.5" y1="16.5" x2="22" y2="22" />
+        <svg
+          class="search-icon-input"
+          viewBox="0 0 24 24"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <line x1="16.5" y1="16.5" x2="22" y2="22" />
         </svg>
         <input
           type="text"
           class="search-input"
           id="search-input"
-          data-i18n-ph="searchPh" placeholder="BUSCAR POR TÍTULO, AUTOR, TAG, GÉNERO..."
+          data-i18n-ph="searchPh"
+          placeholder="BUSCAR POR TÍTULO, AUTOR, TAG, GÉNERO..."
           oninput="buscarComics(this.value)"
           autocomplete="off"
           spellcheck="false"
         />
-        <button class="search-clear" id="search-clear" onclick="limpiarBusqueda()" style="display:none" title="Limpiar búsqueda">✕</button>
+        <button
+          class="search-clear"
+          id="search-clear"
+          onclick="limpiarBusqueda()"
+          style="display: none"
+          title="Limpiar búsqueda"
+        >
+          ✕
+        </button>
       </div>
       <div class="search-count" id="search-count"></div>
     </div>
@@ -1348,31 +1660,70 @@
     <div class="share-panel" id="share-panel">
       <div class="share-panel-inner">
         <h2 class="share-title" data-i18n="shareTitle">Comparte tu Cómic</h2>
-        <p class="share-sub" data-i18n="shareSub">¿Tienes un cómic para agregar a H4ALL? Déjanos los datos y lo revisaremos.</p>
+        <p class="share-sub" data-i18n="shareSub">
+          ¿Tienes un cómic para agregar a H4ALL? Déjanos los datos y lo
+          revisaremos.
+        </p>
         <form id="share-form" onsubmit="enviarCompartir(event)">
           <div class="share-field">
             <label class="share-label" data-i18n="shareLblTitle">Título</label>
-            <input type="text" id="share-titulo" class="share-input"
-              data-i18n-ph="sharePhTitle" placeholder="Título del cómic..." required />
+            <input
+              type="text"
+              id="share-titulo"
+              class="share-input"
+              data-i18n-ph="sharePhTitle"
+              placeholder="Título del cómic..."
+              required
+            />
           </div>
           <div class="share-field">
-            <label class="share-label" data-i18n="shareLblAuthor">Autor / Alias</label>
-            <input type="text" id="share-autor" class="share-input"
-              data-i18n-ph="sharePhAuthor" placeholder="Tu nombre o alias..." required />
+            <label class="share-label" data-i18n="shareLblAuthor"
+              >Autor / Alias</label
+            >
+            <input
+              type="text"
+              id="share-autor"
+              class="share-input"
+              data-i18n-ph="sharePhAuthor"
+              placeholder="Tu nombre o alias..."
+              required
+            />
           </div>
           <div class="share-field">
             <label class="share-label" data-i18n="shareLblLink">Enlace</label>
-            <input type="url" id="share-enlace" class="share-input"
-              data-i18n-ph="sharePhLink" placeholder="Enlace de Drive, Mega, Dropbox..." required />
+            <input
+              type="url"
+              id="share-enlace"
+              class="share-input"
+              data-i18n-ph="sharePhLink"
+              placeholder="Enlace de Drive, Mega, Dropbox..."
+              required
+            />
           </div>
           <div class="share-field">
-            <label class="share-label" data-i18n="shareLblSynopsis">Sinopsis</label>
-            <textarea id="share-sinopsis" class="share-input share-textarea" rows="3"
-              data-i18n-ph="sharePhSynopsis" placeholder="Sinopsis breve (opcional)"></textarea>
+            <label class="share-label" data-i18n="shareLblSynopsis"
+              >Sinopsis</label
+            >
+            <textarea
+              id="share-sinopsis"
+              class="share-input share-textarea"
+              rows="3"
+              data-i18n-ph="sharePhSynopsis"
+              placeholder="Sinopsis breve (opcional)"
+            ></textarea>
           </div>
           <div class="share-actions">
-            <button type="submit" class="share-submit" data-i18n="shareSubmit">Enviar Cómic</button>
-            <button type="button" class="share-cancel" onclick="toggleCompartir()" data-i18n="shareCancel">Cancelar</button>
+            <button type="submit" class="share-submit" data-i18n="shareSubmit">
+              Enviar Cómic
+            </button>
+            <button
+              type="button"
+              class="share-cancel"
+              onclick="toggleCompartir()"
+              data-i18n="shareCancel"
+            >
+              Cancelar
+            </button>
           </div>
           <p class="share-msg" id="share-msg"></p>
         </form>
@@ -1385,13 +1736,27 @@
           <svg viewBox="0 0 10 16"><path d="M8 1L2 8l6 7" /></svg>
           <span data-i18n="back">Volver</span>
         </button>
-        <span class="page-counter" id="page-counter" style="display:none"></span>
+        <span
+          class="page-counter"
+          id="page-counter"
+          style="display: none"
+        ></span>
         <span class="visor-title" id="visor-titulo"></span>
-        <button class="btn-share-toggle" id="btn-compartir-visor" onclick="toggleCompartir()" style="flex-shrink:0">
-          <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
-            <polyline points="16 6 12 2 8 6"/>
-            <line x1="12" y1="2" x2="12" y2="15"/>
+        <button
+          class="btn-share-toggle"
+          id="btn-compartir-visor"
+          onclick="toggleCompartir()"
+          style="flex-shrink: 0"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+            <polyline points="16 6 12 2 8 6" />
+            <line x1="12" y1="2" x2="12" y2="15" />
           </svg>
           <span data-i18n="lblShare">Compartir</span>
         </button>
@@ -1401,18 +1766,35 @@
             <span class="lang-name">Español</span>
           </button>
           <div class="lang-dropdown">
-            <button class="lang-option" data-lang="en" onclick="selectLang('en')">
+            <button
+              class="lang-option"
+              data-lang="en"
+              onclick="selectLang('en')"
+            >
               <span class="lang-flag-big">🇺🇸</span> English
             </button>
-            <button class="lang-option active" data-lang="es" onclick="selectLang('es')">
+            <button
+              class="lang-option active"
+              data-lang="es"
+              onclick="selectLang('es')"
+            >
               <span class="lang-flag-big">🇪🇸</span> Español
             </button>
-            <button class="lang-option" data-lang="pt" onclick="selectLang('pt')">
+            <button
+              class="lang-option"
+              data-lang="pt"
+              onclick="selectLang('pt')"
+            >
               <span class="lang-flag-big">🇵🇹</span> Português
             </button>
           </div>
         </div>
-        <button class="btn-theme" onclick="toggleTheme()" id="btn-theme-visor" style="flex-shrink: 0">
+        <button
+          class="btn-theme"
+          onclick="toggleTheme()"
+          id="btn-theme-visor"
+          style="flex-shrink: 0"
+        >
           <span class="theme-icon">☽</span> Dark
         </button>
       </div>
@@ -1442,134 +1824,270 @@
       // ── I18N ──
       const I18N = {
         en: {
-          flag: "🇺🇸", name: "English",
-          collection: "Collection", titles: "titles",
-          lblFilters: "Filters", lblSearch: "Search",
-          dark: "Dark", light: "Light",
-          filterGenre: "Genre", filterWriter: "Writer", filterArtist: "Artist",
-          filterSeries: "Series", filterLang: "Language", filterTag: "Tag",
-          filterAll: "All", filterAllF: "All",
-          activeFilters: "Active filters:", clearFilters: "✕ Clear",
+          flag: "🇺🇸",
+          name: "English",
+          collection: "Collection",
+          titles: "titles",
+          lblFilters: "Filters",
+          lblSearch: "Search",
+          dark: "Dark",
+          light: "Light",
+          filterGenre: "Genre",
+          filterWriter: "Writer",
+          filterArtist: "Artist",
+          filterSeries: "Series",
+          filterLang: "Language",
+          filterTag: "Tag",
+          filterAll: "All",
+          filterAllF: "All",
+          activeFilters: "Active filters:",
+          clearFilters: "✕ Clear",
           searchPh: "SEARCH BY TITLE, AUTHOR, TAG, GENRE...",
           noResults: "No results found",
           loading: "Loading pages...",
-          errorConn: "⚠ Connection error", errorMsg: "Could not connect to the server.",
+          errorConn: "⚠ Connection error",
+          errorMsg: "Could not connect to the server.",
           errorLoad: "⚠ Loading error",
-          read: "Read", back: "Back",
-          lTitle: "Title", lAuthor: "Author", lArtist: "Artist",
-          lTranslator: "Translation", lYear: "Year", lGenre: "Genre",
-          lLanguage: "Language", lSeries: "Series", lSynopsis: "Synopsis",
-          lTags: "Tags", artistBtn: "ARTIST", authorshipBtn: "Authorship",
-          labelsFilter: { genero: "Genre", escritor: "Writer", dibujante: "Artist", series: "Series", idioma: "Language", tags: "Tag" },
+          read: "Read",
+          back: "Back",
+          lTitle: "Title",
+          lAuthor: "Author",
+          lArtist: "Artist",
+          lTranslator: "Translation",
+          lYear: "Year",
+          lGenre: "Genre",
+          lLanguage: "Language",
+          lSeries: "Series",
+          lSynopsis: "Synopsis",
+          lTags: "Tags",
+          artistBtn: "ARTIST",
+          authorshipBtn: "Authorship",
+          labelsFilter: {
+            genero: "Genre",
+            escritor: "Writer",
+            dibujante: "Artist",
+            series: "Series",
+            idioma: "Language",
+            tags: "Tag",
+          },
           varios: "Various",
           comicFinTitle: "Comic Finished",
           backToTop: "Back to top",
           lblShare: "Share",
           shareTitle: "Share your Comic",
-          shareSub: "Got a comic to add to H4ALL? Send us the details and we'll review it.",
-          shareLblTitle: "Title", shareLblAuthor: "Author / Alias",
-          shareLblLink: "Link", shareLblSynopsis: "Synopsis",
-          sharePhTitle: "Comic title...", sharePhAuthor: "Your name or alias...",
-          sharePhLink: "Drive, Mega, Dropbox link...", sharePhSynopsis: "Brief synopsis (optional)",
-          shareSubmit: "Submit Comic", shareCancel: "Cancel",
+          shareSub:
+            "Got a comic to add to H4ALL? Send us the details and we'll review it.",
+          shareLblTitle: "Title",
+          shareLblAuthor: "Author / Alias",
+          shareLblLink: "Link",
+          shareLblSynopsis: "Synopsis",
+          sharePhTitle: "Comic title...",
+          sharePhAuthor: "Your name or alias...",
+          sharePhLink: "Drive, Mega, Dropbox link...",
+          sharePhSynopsis: "Brief synopsis (optional)",
+          shareSubmit: "Submit Comic",
+          shareCancel: "Cancel",
           shareSending: "Sending...",
           shareSuccess: "Thanks! We'll review your comic soon.",
           shareError: "Error sending. Please try again.",
           kofiTooltip: "Support me",
-          results: n => `${n} result${n !== 1 ? "s" : ""} found`,
-          idiomas: { en: "English", es: "Spanish", ja: "Japanese", fr: "French", de: "German", pt: "Portuguese", it: "Italian", zh: "Chinese", ko: "Korean", ru: "Russian" },
+          results: (n) => `${n} result${n !== 1 ? "s" : ""} found`,
+          idiomas: {
+            en: "English",
+            es: "Spanish",
+            ja: "Japanese",
+            fr: "French",
+            de: "German",
+            pt: "Portuguese",
+            it: "Italian",
+            zh: "Chinese",
+            ko: "Korean",
+            ru: "Russian",
+          },
         },
         es: {
-          flag: "🇪🇸", name: "Español",
-          collection: "Colección", titles: "títulos",
-          lblFilters: "Filtros", lblSearch: "Buscar",
-          dark: "Dark", light: "Light",
-          filterGenre: "Género", filterWriter: "Escritor", filterArtist: "Dibujante",
-          filterSeries: "Serie", filterLang: "Idioma", filterTag: "Tag",
-          filterAll: "Todos", filterAllF: "Todas",
-          activeFilters: "Filtros activos:", clearFilters: "✕ Limpiar",
+          flag: "🇪🇸",
+          name: "Español",
+          collection: "Colección",
+          titles: "títulos",
+          lblFilters: "Filtros",
+          lblSearch: "Buscar",
+          dark: "Dark",
+          light: "Light",
+          filterGenre: "Género",
+          filterWriter: "Escritor",
+          filterArtist: "Dibujante",
+          filterSeries: "Serie",
+          filterLang: "Idioma",
+          filterTag: "Tag",
+          filterAll: "Todos",
+          filterAllF: "Todas",
+          activeFilters: "Filtros activos:",
+          clearFilters: "✕ Limpiar",
           searchPh: "BUSCAR POR TÍTULO, AUTOR, TAG, GÉNERO...",
           noResults: "No se encontraron resultados",
           loading: "Cargando páginas...",
-          errorConn: "⚠ Error de conexión", errorMsg: "No se pudo conectar con el servidor.",
+          errorConn: "⚠ Error de conexión",
+          errorMsg: "No se pudo conectar con el servidor.",
           errorLoad: "⚠ Error al cargar",
-          read: "Leer", back: "Volver",
-          lTitle: "Título", lAuthor: "Autor", lArtist: "Dibujante",
-          lTranslator: "Traducción", lYear: "Año", lGenre: "Género",
-          lLanguage: "Idioma", lSeries: "Serie", lSynopsis: "Sinopsis",
-          lTags: "Tags", artistBtn: "ARTISTA", authorshipBtn: "Autoría",
-          labelsFilter: { genero: "Género", escritor: "Escritor", dibujante: "Dibujante", series: "Serie", idioma: "Idioma", tags: "Tag" },
+          read: "Leer",
+          back: "Volver",
+          lTitle: "Título",
+          lAuthor: "Autor",
+          lArtist: "Dibujante",
+          lTranslator: "Traducción",
+          lYear: "Año",
+          lGenre: "Género",
+          lLanguage: "Idioma",
+          lSeries: "Serie",
+          lSynopsis: "Sinopsis",
+          lTags: "Tags",
+          artistBtn: "ARTISTA",
+          authorshipBtn: "Autoría",
+          labelsFilter: {
+            genero: "Género",
+            escritor: "Escritor",
+            dibujante: "Dibujante",
+            series: "Serie",
+            idioma: "Idioma",
+            tags: "Tag",
+          },
           varios: "Varios",
           comicFinTitle: "Comic Terminado",
           backToTop: "Volver al principio",
           lblShare: "Compartir",
           shareTitle: "Comparte tu Cómic",
-          shareSub: "¿Tienes un cómic para agregar a H4ALL? Déjanos los datos y lo revisaremos.",
-          shareLblTitle: "Título", shareLblAuthor: "Autor / Alias",
-          shareLblLink: "Enlace", shareLblSynopsis: "Sinopsis",
-          sharePhTitle: "Título del cómic...", sharePhAuthor: "Tu nombre o alias...",
-          sharePhLink: "Enlace de Drive, Mega, Dropbox...", sharePhSynopsis: "Sinopsis breve (opcional)",
-          shareSubmit: "Enviar Cómic", shareCancel: "Cancelar",
+          shareSub:
+            "¿Tienes un cómic para agregar a H4ALL? Déjanos los datos y lo revisaremos.",
+          shareLblTitle: "Título",
+          shareLblAuthor: "Autor / Alias",
+          shareLblLink: "Enlace",
+          shareLblSynopsis: "Sinopsis",
+          sharePhTitle: "Título del cómic...",
+          sharePhAuthor: "Tu nombre o alias...",
+          sharePhLink: "Enlace de Drive, Mega, Dropbox...",
+          sharePhSynopsis: "Sinopsis breve (opcional)",
+          shareSubmit: "Enviar Cómic",
+          shareCancel: "Cancelar",
           shareSending: "Enviando...",
           shareSuccess: "¡Gracias! Revisaremos tu cómic pronto.",
           shareError: "Error al enviar. Intenta de nuevo.",
           kofiTooltip: "Apóyame",
-          results: n => `${n} resultado${n !== 1 ? "s" : ""} encontrado${n !== 1 ? "s" : ""}`,
-          idiomas: { en: "Inglés", es: "Español", ja: "Japonés", fr: "Francés", de: "Alemán", pt: "Portugués", it: "Italiano", zh: "Chino", ko: "Coreano", ru: "Ruso" },
+          results: (n) =>
+            `${n} resultado${n !== 1 ? "s" : ""} encontrado${n !== 1 ? "s" : ""}`,
+          idiomas: {
+            en: "Inglés",
+            es: "Español",
+            ja: "Japonés",
+            fr: "Francés",
+            de: "Alemán",
+            pt: "Portugués",
+            it: "Italiano",
+            zh: "Chino",
+            ko: "Coreano",
+            ru: "Ruso",
+          },
         },
         pt: {
-          flag: "🇵🇹", name: "Português",
-          collection: "Coleção", titles: "títulos",
-          lblFilters: "Filtros", lblSearch: "Buscar",
-          dark: "Dark", light: "Light",
-          filterGenre: "Gênero", filterWriter: "Escritor", filterArtist: "Desenhista",
-          filterSeries: "Série", filterLang: "Idioma", filterTag: "Tag",
-          filterAll: "Todos", filterAllF: "Todas",
-          activeFilters: "Filtros ativos:", clearFilters: "✕ Limpar",
+          flag: "🇵🇹",
+          name: "Português",
+          collection: "Coleção",
+          titles: "títulos",
+          lblFilters: "Filtros",
+          lblSearch: "Buscar",
+          dark: "Dark",
+          light: "Light",
+          filterGenre: "Gênero",
+          filterWriter: "Escritor",
+          filterArtist: "Desenhista",
+          filterSeries: "Série",
+          filterLang: "Idioma",
+          filterTag: "Tag",
+          filterAll: "Todos",
+          filterAllF: "Todas",
+          activeFilters: "Filtros ativos:",
+          clearFilters: "✕ Limpar",
           searchPh: "BUSCAR POR TÍTULO, AUTOR, TAG, GÊNERO...",
           noResults: "Nenhum resultado encontrado",
           loading: "Carregando páginas...",
-          errorConn: "⚠ Erro de conexão", errorMsg: "Não foi possível conectar ao servidor.",
+          errorConn: "⚠ Erro de conexão",
+          errorMsg: "Não foi possível conectar ao servidor.",
           errorLoad: "⚠ Erro ao carregar",
-          read: "Ler", back: "Voltar",
-          lTitle: "Título", lAuthor: "Autor", lArtist: "Desenhista",
-          lTranslator: "Tradução", lYear: "Ano", lGenre: "Gênero",
-          lLanguage: "Idioma", lSeries: "Série", lSynopsis: "Sinopse",
-          lTags: "Tags", artistBtn: "ARTISTA", authorshipBtn: "Autoria",
-          labelsFilter: { genero: "Gênero", escritor: "Escritor", dibujante: "Desenhista", series: "Série", idioma: "Idioma", tags: "Tag" },
+          read: "Ler",
+          back: "Voltar",
+          lTitle: "Título",
+          lAuthor: "Autor",
+          lArtist: "Desenhista",
+          lTranslator: "Tradução",
+          lYear: "Ano",
+          lGenre: "Gênero",
+          lLanguage: "Idioma",
+          lSeries: "Série",
+          lSynopsis: "Sinopse",
+          lTags: "Tags",
+          artistBtn: "ARTISTA",
+          authorshipBtn: "Autoria",
+          labelsFilter: {
+            genero: "Gênero",
+            escritor: "Escritor",
+            dibujante: "Desenhista",
+            series: "Série",
+            idioma: "Idioma",
+            tags: "Tag",
+          },
           varios: "Vários",
           comicFinTitle: "Quadrinho Terminado",
           backToTop: "Voltar ao início",
           lblShare: "Compartilhar",
           shareTitle: "Compartilhe seu Quadrinho",
-          shareSub: "Tem um quadrinho para adicionar ao H4ALL? Nos envie os dados e vamos analisar.",
-          shareLblTitle: "Título", shareLblAuthor: "Autor / Apelido",
-          shareLblLink: "Link", shareLblSynopsis: "Sinopse",
-          sharePhTitle: "Título do quadrinho...", sharePhAuthor: "Seu nome ou apelido...",
-          sharePhLink: "Link do Drive, Mega, Dropbox...", sharePhSynopsis: "Sinopse breve (opcional)",
-          shareSubmit: "Enviar Quadrinho", shareCancel: "Cancelar",
+          shareSub:
+            "Tem um quadrinho para adicionar ao H4ALL? Nos envie os dados e vamos analisar.",
+          shareLblTitle: "Título",
+          shareLblAuthor: "Autor / Apelido",
+          shareLblLink: "Link",
+          shareLblSynopsis: "Sinopse",
+          sharePhTitle: "Título do quadrinho...",
+          sharePhAuthor: "Seu nome ou apelido...",
+          sharePhLink: "Link do Drive, Mega, Dropbox...",
+          sharePhSynopsis: "Sinopse breve (opcional)",
+          shareSubmit: "Enviar Quadrinho",
+          shareCancel: "Cancelar",
           shareSending: "Enviando...",
           shareSuccess: "Obrigado! Vamos analisar em breve.",
           shareError: "Erro ao enviar. Tente novamente.",
           kofiTooltip: "Apoie-me",
-          results: n => `${n} resultado${n !== 1 ? "s" : ""} encontrado${n !== 1 ? "s" : ""}`,
-          idiomas: { en: "Inglês", es: "Espanhol", ja: "Japonês", fr: "Francês", de: "Alemão", pt: "Português", it: "Italiano", zh: "Chinês", ko: "Coreano", ru: "Russo" },
+          results: (n) =>
+            `${n} resultado${n !== 1 ? "s" : ""} encontrado${n !== 1 ? "s" : ""}`,
+          idiomas: {
+            en: "Inglês",
+            es: "Espanhol",
+            ja: "Japonês",
+            fr: "Francês",
+            de: "Alemão",
+            pt: "Português",
+            it: "Italiano",
+            zh: "Chinês",
+            ko: "Coreano",
+            ru: "Russo",
+          },
         },
       };
 
       let currentLang = localStorage.getItem("lang") || "es";
 
-      function t(key) { return I18N[currentLang][key]; }
+      function t(key) {
+        return I18N[currentLang][key];
+      }
 
       function applyLang(lang) {
         currentLang = lang;
         localStorage.setItem("lang", lang);
         const T = I18N[lang];
-        document.querySelectorAll("[data-i18n]").forEach(el => {
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
           const k = el.dataset.i18n;
           if (T[k] !== undefined) el.textContent = T[k];
         });
-        document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+        document.querySelectorAll("[data-i18n-ph]").forEach((el) => {
           const k = el.dataset.i18nPh;
           if (T[k] !== undefined) el.placeholder = T[k];
         });
@@ -1578,20 +2096,36 @@
         if (typeof LABELS_FILTRO !== "undefined") {
           Object.assign(LABELS_FILTRO, T.labelsFilter);
         }
-        if (typeof renderFiltrosActivos === "function" && typeof filtrosActivos !== "undefined") {
+        if (
+          typeof renderFiltrosActivos === "function" &&
+          typeof filtrosActivos !== "undefined"
+        ) {
           renderFiltrosActivos();
         }
-        if (typeof todosLosComics !== "undefined" && todosLosComics.length > 0) {
-          if (typeof poblarSelects === "function") poblarSelects(todosLosComics);
-          if (typeof renderGrid === "function") renderGrid(typeof filtrarComics === "function" ? filtrarComics() : todosLosComics);
+        if (
+          typeof todosLosComics !== "undefined" &&
+          todosLosComics.length > 0
+        ) {
+          if (typeof poblarSelects === "function")
+            poblarSelects(todosLosComics);
+          if (typeof renderGrid === "function")
+            renderGrid(
+              typeof filtrarComics === "function"
+                ? filtrarComics()
+                : todosLosComics,
+            );
         }
       }
 
       function updateLangBtn() {
         const T = I18N[currentLang];
-        document.querySelectorAll(".lang-flag").forEach(el => el.textContent = T.flag);
-        document.querySelectorAll(".lang-name").forEach(el => el.textContent = T.name);
-        document.querySelectorAll(".lang-option").forEach(opt => {
+        document
+          .querySelectorAll(".lang-flag")
+          .forEach((el) => (el.textContent = T.flag));
+        document
+          .querySelectorAll(".lang-name")
+          .forEach((el) => (el.textContent = T.name));
+        document.querySelectorAll(".lang-option").forEach((opt) => {
           opt.classList.toggle("active", opt.dataset.lang === currentLang);
         });
       }
@@ -1599,10 +2133,12 @@
       function toggleLangDropdown(btn) {
         const switcher = btn.closest(".lang-switcher");
         const dd = switcher.querySelector(".lang-dropdown");
-        document.querySelectorAll(".lang-dropdown.open").forEach(d => {
+        document.querySelectorAll(".lang-dropdown.open").forEach((d) => {
           if (d !== dd) {
             d.classList.remove("open");
-            d.closest(".lang-switcher").querySelector(".btn-lang").classList.remove("open");
+            d.closest(".lang-switcher")
+              .querySelector(".btn-lang")
+              .classList.remove("open");
           }
         });
         const isOpen = dd.classList.toggle("open");
@@ -1610,15 +2146,23 @@
       }
 
       function selectLang(lang) {
-        document.querySelectorAll(".lang-dropdown").forEach(d => d.classList.remove("open"));
-        document.querySelectorAll(".btn-lang").forEach(b => b.classList.remove("open"));
+        document
+          .querySelectorAll(".lang-dropdown")
+          .forEach((d) => d.classList.remove("open"));
+        document
+          .querySelectorAll(".btn-lang")
+          .forEach((b) => b.classList.remove("open"));
         applyLang(lang);
       }
 
-      document.addEventListener("click", e => {
+      document.addEventListener("click", (e) => {
         if (!e.target.closest(".lang-switcher")) {
-          document.querySelectorAll(".lang-dropdown").forEach(d => d.classList.remove("open"));
-          document.querySelectorAll(".btn-lang").forEach(b => b.classList.remove("open"));
+          document
+            .querySelectorAll(".lang-dropdown")
+            .forEach((d) => d.classList.remove("open"));
+          document
+            .querySelectorAll(".btn-lang")
+            .forEach((b) => b.classList.remove("open"));
         }
       });
 
@@ -1645,7 +2189,7 @@
     </script>
 
     <script>
-      const API_URL = "http://localhost:3000";
+      const API_URL = "https://h4all-comics.onrender.com";
       let todosLosComics = [];
       let filtrosActivos = {};
       let busquedaActiva = "";
@@ -1656,25 +2200,27 @@
 
       function nombreIdioma(code) {
         if (!code || code === "N/A") return null;
-        return I18N[currentLang].idiomas[code.toLowerCase()] || code.toUpperCase();
+        return (
+          I18N[currentLang].idiomas[code.toLowerCase()] || code.toUpperCase()
+        );
       }
 
       // ── FILTROS ──
       function toggleFiltros() {
         const panel = document.getElementById("filter-panel");
-        const btn   = document.getElementById("btn-filtros");
+        const btn = document.getElementById("btn-filtros");
         panel.classList.toggle("open");
         btn.classList.toggle("active");
       }
 
       function poblarSelects(comics) {
         const campos = {
-          "f-genero":    { key: "genero",    split: true  },
-          "f-escritor":  { key: "escritor",  split: false },
+          "f-genero": { key: "genero", split: true },
+          "f-escritor": { key: "escritor", split: false },
           "f-dibujante": { key: "dibujante", split: false },
-          "f-series":    { key: "series",    split: false },
-          "f-idioma":    { key: "idioma",    split: false, map: nombreIdioma },
-          "f-tag":       { key: "tags",      split: true  },
+          "f-series": { key: "series", split: false },
+          "f-idioma": { key: "idioma", split: false, map: nombreIdioma },
+          "f-tag": { key: "tags", split: true },
         };
         for (const [id, cfg] of Object.entries(campos)) {
           const sel = document.getElementById(id);
@@ -1682,16 +2228,17 @@
           sel.innerHTML = "";
           sel.appendChild(first);
           const valores = new Set();
-          comics.forEach(c => {
+          comics.forEach((c) => {
             const v = c[cfg.key];
-            if (!v || v === "Desconocido" || v === "N/A" || v === "Varios") return;
+            if (!v || v === "Desconocido" || v === "N/A" || v === "Varios")
+              return;
             if (cfg.split) {
-              v.split(",").forEach(x => valores.add(x.trim()));
+              v.split(",").forEach((x) => valores.add(x.trim()));
             } else {
               valores.add(v.trim());
             }
           });
-          [...valores].sort().forEach(v => {
+          [...valores].sort().forEach((v) => {
             const label = cfg.map ? cfg.map(v) || v : v;
             const opt = document.createElement("option");
             opt.value = v;
@@ -1704,9 +2251,12 @@
       function aplicarFiltros() {
         filtrosActivos = {};
         const mapeo = {
-          "f-genero": "genero", "f-escritor": "escritor",
-          "f-dibujante": "dibujante", "f-series": "series",
-          "f-idioma": "idioma", "f-tag": "tags",
+          "f-genero": "genero",
+          "f-escritor": "escritor",
+          "f-dibujante": "dibujante",
+          "f-series": "series",
+          "f-idioma": "idioma",
+          "f-tag": "tags",
         };
         for (const [id, campo] of Object.entries(mapeo)) {
           const v = document.getElementById(id).value;
@@ -1717,21 +2267,32 @@
       }
 
       function filtrarComics() {
-        return todosLosComics.filter(c => {
+        return todosLosComics.filter((c) => {
           for (const [campo, valor] of Object.entries(filtrosActivos)) {
             const cv = c[campo] || "";
             if (campo === "tags" || campo === "genero") {
-              const lista = cv.split(",").map(x => x.trim().toLowerCase());
+              const lista = cv.split(",").map((x) => x.trim().toLowerCase());
               if (!lista.includes(valor.toLowerCase())) return false;
             } else if (campo === "idioma") {
-              if ((c.idioma || "").toLowerCase() !== valor.toLowerCase()) return false;
+              if ((c.idioma || "").toLowerCase() !== valor.toLowerCase())
+                return false;
             } else {
               if (!cv.toLowerCase().includes(valor.toLowerCase())) return false;
             }
           }
           if (busquedaActiva) {
-            const haystack = [c.titulo, c.escritor, c.dibujante, c.genero, c.tags, c.series, c.sinopsis]
-              .filter(Boolean).join(" ").toLowerCase();
+            const haystack = [
+              c.titulo,
+              c.escritor,
+              c.dibujante,
+              c.genero,
+              c.tags,
+              c.series,
+              c.sinopsis,
+            ]
+              .filter(Boolean)
+              .join(" ")
+              .toLowerCase();
             if (!haystack.includes(busquedaActiva)) return false;
           }
           return true;
@@ -1744,7 +2305,7 @@
         document.getElementById("f-tag").value = tag;
         aplicarFiltros();
         const panel = document.getElementById("filter-panel");
-        const btn   = document.getElementById("btn-filtros");
+        const btn = document.getElementById("btn-filtros");
         if (!panel.classList.contains("open")) {
           panel.classList.add("open");
           btn.classList.add("active");
@@ -1752,8 +2313,12 @@
       }
 
       let LABELS_FILTRO = {
-        genero: "Género", escritor: "Escritor", dibujante: "Dibujante",
-        series: "Serie", idioma: "Idioma", tags: "Tag",
+        genero: "Género",
+        escritor: "Escritor",
+        dibujante: "Dibujante",
+        series: "Serie",
+        idioma: "Idioma",
+        tags: "Tag",
       };
 
       function renderFiltrosActivos() {
@@ -1763,18 +2328,26 @@
         const n = Object.keys(filtrosActivos).length;
         dot.style.display = n > 0 ? "inline-flex" : "none";
         dot.textContent = n;
-        if (n === 0) { actions.style.display = "none"; return; }
+        if (n === 0) {
+          actions.style.display = "none";
+          return;
+        }
         actions.style.display = "flex";
         container.innerHTML = "";
         for (const [campo, valor] of Object.entries(filtrosActivos)) {
-          const label = campo === "idioma" ? nombreIdioma(valor) || valor : valor;
+          const label =
+            campo === "idioma" ? nombreIdioma(valor) || valor : valor;
           const btn = document.createElement("button");
           btn.className = "filter-active-tag";
           btn.innerHTML = `${LABELS_FILTRO[campo]}: ${label} ✕`;
           btn.onclick = () => {
             const selectMap = {
-              genero: "f-genero", escritor: "f-escritor", dibujante: "f-dibujante",
-              series: "f-series", idioma: "f-idioma", tags: "f-tag"
+              genero: "f-genero",
+              escritor: "f-escritor",
+              dibujante: "f-dibujante",
+              series: "f-series",
+              idioma: "f-idioma",
+              tags: "f-tag",
             };
             document.getElementById(selectMap[campo]).value = "";
             aplicarFiltros();
@@ -1784,8 +2357,14 @@
       }
 
       function limpiarFiltros() {
-        ["f-genero","f-escritor","f-dibujante","f-series","f-idioma","f-tag"]
-          .forEach(id => document.getElementById(id).value = "");
+        [
+          "f-genero",
+          "f-escritor",
+          "f-dibujante",
+          "f-series",
+          "f-idioma",
+          "f-tag",
+        ].forEach((id) => (document.getElementById(id).value = ""));
         filtrosActivos = {};
         renderFiltrosActivos();
         renderGrid(filtrarComics());
@@ -1794,11 +2373,14 @@
       // ── BUSCADOR ──
       function toggleBuscador() {
         const panel = document.getElementById("search-panel");
-        const btn   = document.getElementById("btn-buscar");
+        const btn = document.getElementById("btn-buscar");
         const isOpen = panel.classList.toggle("open");
         btn.classList.toggle("active", isOpen);
         if (isOpen) {
-          setTimeout(() => document.getElementById("search-input").focus(), 340);
+          setTimeout(
+            () => document.getElementById("search-input").focus(),
+            340,
+          );
         } else {
           limpiarBusqueda();
         }
@@ -1806,7 +2388,9 @@
 
       function buscarComics(valor) {
         busquedaActiva = valor.trim().toLowerCase();
-        document.getElementById("search-clear").style.display = busquedaActiva ? "block" : "none";
+        document.getElementById("search-clear").style.display = busquedaActiva
+          ? "block"
+          : "none";
         const resultados = filtrarComics();
         renderGrid(resultados);
         document.getElementById("search-count").textContent = busquedaActiva
@@ -1852,10 +2436,12 @@
           div.style.animationDelay = `${i * 40}ms`;
           div.onclick = () => abrirComic(comic);
           let badges = "";
-          if (comic.genero) badges += `<span class="badge badge-genre">${comic.genero === "Varios" ? t("varios") : comic.genero}</span>`;
-          if (comic.anio)   badges += `<span class="badge badge-year">${comic.anio}</span>`;
+          if (comic.genero)
+            badges += `<span class="badge badge-genre">${comic.genero === "Varios" ? t("varios") : comic.genero}</span>`;
+          if (comic.anio)
+            badges += `<span class="badge badge-year">${comic.anio}</span>`;
           const lang = nombreIdioma(comic.idioma);
-          if (lang)         badges += `<span class="badge badge-lang">${lang}</span>`;
+          if (lang) badges += `<span class="badge badge-lang">${lang}</span>`;
           div.innerHTML = `
             <span class="card-corner">${t("read")}</span>
             <img src="${comic.portada_url}" alt="${comic.titulo}" loading="lazy">
@@ -1906,50 +2492,89 @@
             <span class="info-value title-value">${comic.titulo}</span>
           </div>
           <hr class="info-divider">
-          ${comic.escritor && comic.escritor !== "Desconocido" ? `
+          ${
+            comic.escritor && comic.escritor !== "Desconocido"
+              ? `
           <div class="info-field">
             <span class="info-label">${t("lAuthor")}</span>
             <span class="info-value">${comic.escritor}</span>
-          </div>` : ""}
-          ${comic.dibujante ? `
+          </div>`
+              : ""
+          }
+          ${
+            comic.dibujante
+              ? `
           <div class="info-field">
             <span class="info-label">${t("lArtist")}</span>
             <span class="info-value">${comic.dibujante}</span>
-          </div>` : ""}
-          ${comic.traductor ? `
+          </div>`
+              : ""
+          }
+          ${
+            comic.traductor
+              ? `
           <div class="info-field">
             <span class="info-label">${t("lTranslator")}</span>
             <span class="info-value">${comic.traductor}</span>
-          </div>` : ""}
-          ${comic.anio ? `
+          </div>`
+              : ""
+          }
+          ${
+            comic.anio
+              ? `
           <div class="info-field">
             <span class="info-label">${t("lYear")}</span>
             <span class="info-value">${comic.anio}</span>
-          </div>` : ""}
-          ${comic.genero && comic.genero !== "Varios" ? `
+          </div>`
+              : ""
+          }
+          ${
+            comic.genero && comic.genero !== "Varios"
+              ? `
           <div class="info-field">
             <span class="info-label">${t("lGenre")}</span>
             <div class="info-badges">
-              ${comic.genero.split(",").map(g => `<span class="badge badge-genre">${g.trim()}</span>`).join("")}
+              ${comic.genero
+                .split(",")
+                .map(
+                  (g) => `<span class="badge badge-genre">${g.trim()}</span>`,
+                )
+                .join("")}
             </div>
-          </div>` : ""}
-          ${lang ? `
+          </div>`
+              : ""
+          }
+          ${
+            lang
+              ? `
           <div class="info-field">
             <span class="info-label">${t("lLanguage")}</span>
             <span class="info-value">${lang}</span>
-          </div>` : ""}
-          ${comic.series ? `
+          </div>`
+              : ""
+          }
+          ${
+            comic.series
+              ? `
           <div class="info-field">
             <span class="info-label">${t("lSeries")}</span>
             <span class="info-value">${comic.series}</span>
-          </div>` : ""}
-          ${comic.sinopsis && comic.sinopsis !== "Sin descripción disponible." ? `
+          </div>`
+              : ""
+          }
+          ${
+            comic.sinopsis && comic.sinopsis !== "Sin descripción disponible."
+              ? `
           <hr class="info-divider">
           <div class="info-field info-full">
             <span class="info-label">${t("lSynopsis")}</span>
             <p class="info-sinopsis">${comic.sinopsis}</p>
-          </div>` : ""}
-          ${comic.autor_url ? `
+          </div>`
+              : ""
+          }
+          ${
+            comic.autor_url
+              ? `
           <hr class="info-divider">
           <div class="info-field info-full">
             <a class="btn-autoria" href="${comic.autor_url}" target="_blank" rel="noopener noreferrer">
@@ -1958,20 +2583,29 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
               </span>
             </a>
-          </div>` : ""}
-          ${comic.tags ? `
+          </div>`
+              : ""
+          }
+          ${
+            comic.tags
+              ? `
           <hr class="info-divider">
           <div class="info-field info-full">
             <span class="info-label">${t("lTags")}</span>
             <div class="info-tags">
-              ${comic.tags.split(",").map(tag => {
-                const tagTrim = tag.trim();
-                return `<button class="tag-pill tag-pill-link" onclick="filtrarPorTag('${tagTrim.replace(/'/g, "\'")}')">
+              ${comic.tags
+                .split(",")
+                .map((tag) => {
+                  const tagTrim = tag.trim();
+                  return `<button class="tag-pill tag-pill-link" onclick="filtrarPorTag('${tagTrim.replace(/'/g, "\'")}')">
                   ${tagTrim}
                 </button>`;
-              }).join("")}
+                })
+                .join("")}
             </div>
-          </div>` : ""}
+          </div>`
+              : ""
+          }
         `;
 
         // Resetear contador
@@ -1986,15 +2620,18 @@
 
         // Observer solo para la animación de aparición de páginas
         const observer = new IntersectionObserver(
-          entries => entries.forEach(e => {
-            if (e.isIntersecting) e.target.classList.add("aparecer");
-            else e.target.classList.remove("aparecer");
-          }),
-          { threshold: 0.05 }
+          (entries) =>
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("aparecer");
+              else e.target.classList.remove("aparecer");
+            }),
+          { threshold: 0.05 },
         );
 
         try {
-          const respuesta = await axios.get(`${API_URL}/api/comics/${comic.id}/paginas`);
+          const respuesta = await axios.get(
+            `${API_URL}/api/comics/${comic.id}/paginas`,
+          );
           const paginas = respuesta.data;
           contenedorPaginas.innerHTML = "";
           pageCounter.dataset.total = paginas.length;
@@ -2025,7 +2662,8 @@
               else return;
             }
             const imgs = contenedorPaginas.querySelectorAll("img.pagina-comic");
-            const visorHeaderH = document.querySelector(".visor-header")?.offsetHeight || 60;
+            const visorHeaderH =
+              document.querySelector(".visor-header")?.offsetHeight || 60;
             let paginaActual = 0;
 
             for (const img of imgs) {
@@ -2057,7 +2695,9 @@
             }
           };
 
-          window.addEventListener("scroll", scrollHandlerLectura, { passive: true });
+          window.addEventListener("scroll", scrollHandlerLectura, {
+            passive: true,
+          });
           // Lanzar una vez para mostrar "1 / N" sin necesidad de hacer scroll
           setTimeout(scrollHandlerLectura, 120);
 
@@ -2067,12 +2707,15 @@
             tagFooter.innerHTML = `
               <span class="tags-footer-label">${t("lTags")}</span>
               <div class="info-tags">
-                ${comic.tags.split(",").map(tg => {
-                  const tag = tg.trim();
-                  return `<button class="tag-pill tag-pill-link" onclick="filtrarPorTag('${tag.replace(/'/g, "\'")}')">
+                ${comic.tags
+                  .split(",")
+                  .map((tg) => {
+                    const tag = tg.trim();
+                    return `<button class="tag-pill tag-pill-link" onclick="filtrarPorTag('${tag.replace(/'/g, "\'")}')">
                     ${tag}
                   </button>`;
-                }).join("")}
+                  })
+                  .join("")}
               </div>`;
             contenedorPaginas.appendChild(tagFooter);
           }
@@ -2092,7 +2735,6 @@
               ${t("backToTop")}
             </button>`;
           contenedorPaginas.appendChild(finSection);
-
         } catch (error) {
           contenedorPaginas.innerHTML = `<div class="error-box"><strong>${t("errorLoad")}</strong><p>${error.message}</p></div>`;
         }
@@ -2102,15 +2744,19 @@
         const btn = document.querySelector(".btn-volver-inicio");
         if (btn) {
           btn.classList.add("saliendo");
-          btn.addEventListener("animationend", () => {
-            saltarScrollHandler = true;
-            maxPaginaVista = 0;
-            const fin = document.getElementById("comic-fin-section");
-            if (fin) fin.style.display = "none";
-            const counter = document.getElementById("page-counter");
-            if (counter) counter.classList.remove("ultima-pagina");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }, { once: true });
+          btn.addEventListener(
+            "animationend",
+            () => {
+              saltarScrollHandler = true;
+              maxPaginaVista = 0;
+              const fin = document.getElementById("comic-fin-section");
+              if (fin) fin.style.display = "none";
+              const counter = document.getElementById("page-counter");
+              if (counter) counter.classList.remove("ultima-pagina");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            },
+            { once: true },
+          );
         } else {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
@@ -2130,18 +2776,20 @@
       }
 
       // Duraciones en ms — deben coincidir exactamente con las del CSS
-      const DUR_SALIDA  = 160;  // catalogoSalir / shareSalida
-      const DUR_ENTRADA = 420;  // catalogoEntrar / shareEntrada
+      const DUR_SALIDA = 160; // catalogoSalir / shareSalida
+      const DUR_ENTRADA = 420; // catalogoEntrar / shareEntrada
 
       function toggleCompartir() {
         if (transicionando) return;
 
-        const panel    = document.getElementById("share-panel");
+        const panel = document.getElementById("share-panel");
         const catalogo = document.getElementById("contenedor-comics");
-        const isOpen   = panel.classList.contains("open");
+        const isOpen = panel.classList.contains("open");
 
         transicionando = true;
-        document.querySelectorAll(".btn-share-toggle").forEach(b => b.classList.toggle("active", !isOpen));
+        document
+          .querySelectorAll(".btn-share-toggle")
+          .forEach((b) => b.classList.toggle("active", !isOpen));
 
         if (!isOpen) {
           // Cerrar otros paneles
@@ -2156,9 +2804,10 @@
             catalogo.classList.remove("catalogo-saliendo");
             catalogo.style.display = "none";
             panel.classList.add("open");
-            setTimeout(() => { transicionando = false; }, DUR_ENTRADA);
+            setTimeout(() => {
+              transicionando = false;
+            }, DUR_ENTRADA);
           }, DUR_SALIDA);
-
         } else {
           // Formulario sale → catálogo entra
           panel.classList.add("cerrando");
@@ -2180,7 +2829,9 @@
         const panel = document.getElementById("share-panel");
         if (!panel.classList.contains("open")) return;
         panel.classList.remove("open", "cerrando");
-        document.querySelectorAll(".btn-share-toggle").forEach(b => b.classList.remove("active"));
+        document
+          .querySelectorAll(".btn-share-toggle")
+          .forEach((b) => b.classList.remove("active"));
       }
 
       async function enviarCompartir(e) {
@@ -2189,9 +2840,9 @@
         const submitBtn = form.querySelector(".share-submit");
         const msgEl = document.getElementById("share-msg");
 
-        const titulo   = document.getElementById("share-titulo").value.trim();
-        const autor    = document.getElementById("share-autor").value.trim();
-        const enlace   = document.getElementById("share-enlace").value.trim();
+        const titulo = document.getElementById("share-titulo").value.trim();
+        const autor = document.getElementById("share-autor").value.trim();
+        const enlace = document.getElementById("share-enlace").value.trim();
         const sinopsis = document.getElementById("share-sinopsis").value.trim();
 
         const originalText = submitBtn.textContent;
@@ -2203,8 +2854,14 @@
         try {
           await axios.post(
             "https://formsubmit.co/ajax/ovejaseggs54@gmail.com",
-            { _subject: "🚨 H4All Comics ¡Nueva propuesta de cómic!", titulo, autor, enlace, sinopsis },
-            { headers: { Accept: "application/json" } }
+            {
+              _subject: "🚨 H4All Comics ¡Nueva propuesta de cómic!",
+              titulo,
+              autor,
+              enlace,
+              sinopsis,
+            },
+            { headers: { Accept: "application/json" } },
           );
           form.reset();
           alert(t("shareSuccess"));
@@ -2221,9 +2878,18 @@
       cargarComics();
     </script>
 
-    <a href="https://ko-fi.com/ovejoide" target="_blank" rel="noopener noreferrer" class="kofi-btn" aria-label="Apóyame en Ko-fi">
+    <a
+      href="https://ko-fi.com/ovejoide"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="kofi-btn"
+      aria-label="Apóyame en Ko-fi"
+    >
       <span class="kofi-img-wrap">
-        <img src="https://ik.imagekit.io/rcbeujyg1/Assets/ko-fi-icon.svg?updatedAt=1779866205709" alt="Ko-fi" />
+        <img
+          src="https://ik.imagekit.io/rcbeujyg1/Assets/ko-fi-icon.svg?updatedAt=1779866205709"
+          alt="Ko-fi"
+        />
       </span>
       <span class="kofi-tooltip" data-i18n="kofiTooltip">Apóyame</span>
     </a>
