@@ -1,9 +1,0 @@
-Actualizar nuevos_comics_.json con mas contenido
-
-Cargar el migrar.js con el comando:
-node migrar.js en terminal
-
-Subir los cambios al git con el siguiente comando:
-git add .
-git commit -m "Actualizar catalogo"
-git push
