@@ -34,7 +34,7 @@ function sortComics(rows) {
   }
   return Object.values(groups)
     .sort((a, b) => b.maxId - a.maxId)
-    .flatMap(g => g.items.sort((a, b) => (a._num ?? 0) - (b._num ?? 0)));
+    .flatMap(g => g.items.sort((a, b) => (b._num ?? 0) - (a._num ?? 0)));
 }
 
 app.get("/api/comics", async (req, res) => {
