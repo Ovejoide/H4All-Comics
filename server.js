@@ -47,13 +47,14 @@ app.get("/api/comics", async (req, res) => {
     res.json(sortComics(resultado.rows));
   } catch (error) {
     console.error("Error en /api/comics:", error.message);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 });
 
 // ── PÁGINAS ──
 app.get("/api/comics/:id/paginas", async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
+  if (isNaN(id)) return res.status(400).json({ error: "ID inválido" });
   try {
     const result = await pool.query(
       "SELECT * FROM paginas WHERE comic_id = $1 ORDER BY numero_pagina ASC",
@@ -61,9 +62,17 @@ app.get("/api/comics/:id/paginas", async (req, res) => {
     );
     res.json(result.rows);
   } catch (err) {
-    console.error("Error en servidor:", err.message);
-    res.status(500).json({ error: err.message });
+    console.error("Error en /api/comics/:id/paginas:", err.message);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
+});
+
+// ── SPA fallback — rutas API no encontradas devuelven 404, resto sirve el SPA ──
+app.use((req, res) => {
+  if (req.path.startsWith("/api/")) {
+    return res.status(404).json({ error: "Endpoint no encontrado" });
+  }
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // ══════════════════════════════════════════
@@ -125,61 +134,66 @@ async function sincronizarCatalogo() {
       }
     }
 
-    const check = await pool.query("SELECT id FROM comics WHERE titulo = $1", [comic.titulo]);
-    let comicId;
+    // Cada cómic en su propia transacción para evitar race conditions
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
 
-    if (check.rows.length > 0) {
-      comicId = check.rows[0].id;
-      await pool.query(
-        `UPDATE comics SET sinopsis=$1, escritor=$2, dibujante=$3, series=$4, anio=$5,
-         genero=$6, idioma=$7, autor_url=$8, traductor=$9, tags=$10 WHERE id=$11`,
-        [sinopsis, escritor, dibujante, series, anio, genero, idioma, autor_url, traductor, tags, comicId]
+      const check = await client.query(
+        "SELECT id FROM comics WHERE titulo = $1 FOR UPDATE",
+        [comic.titulo]
       );
-      console.log(`    ✓ Actualizado (ID: ${comicId})`);
-    } else {
-      const res = await pool.query(
-        `INSERT INTO comics (titulo, portada_url, sinopsis, escritor, dibujante, series,
-                             anio, genero, idioma, autor_url, traductor, tags)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id;`,
-        [comic.titulo, comic.portada_url, sinopsis, escritor, dibujante, series,
-         anio, genero, idioma, autor_url, traductor, tags]
-      );
-      comicId = res.rows[0].id;
-      console.log(`    ✓ Insertado (ID: ${comicId})`);
-    }
+      let comicId;
 
-    let numeroPagina = 1;
-    for (const urlPagina of comic.paginas) {
-      const checkP = await pool.query(
-        "SELECT id FROM paginas WHERE comic_id=$1 AND numero_pagina=$2",
-        [comicId, numeroPagina]
-      );
-      if (checkP.rows.length === 0) {
-        await pool.query(
-          "INSERT INTO paginas (comic_id, numero_pagina, imagen_url) VALUES ($1,$2,$3);",
-          [comicId, numeroPagina, urlPagina]
+      if (check.rows.length > 0) {
+        comicId = check.rows[0].id;
+        await client.query(
+          `UPDATE comics SET sinopsis=$1, escritor=$2, dibujante=$3, series=$4, anio=$5,
+           genero=$6, idioma=$7, autor_url=$8, traductor=$9, tags=$10 WHERE id=$11`,
+          [sinopsis, escritor, dibujante, series, anio, genero, idioma, autor_url, traductor, tags, comicId]
         );
+        console.log(`    ✓ Actualizado (ID: ${comicId})`);
+      } else {
+        const res = await client.query(
+          `INSERT INTO comics (titulo, portada_url, sinopsis, escritor, dibujante, series,
+                               anio, genero, idioma, autor_url, traductor, tags)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id`,
+          [comic.titulo, comic.portada_url, sinopsis, escritor, dibujante, series,
+           anio, genero, idioma, autor_url, traductor, tags]
+        );
+        comicId = res.rows[0].id;
+        console.log(`    ✓ Insertado (ID: ${comicId})`);
       }
-      numeroPagina++;
+
+      for (let numeroPagina = 1; numeroPagina <= comic.paginas.length; numeroPagina++) {
+        const checkP = await client.query(
+          "SELECT id FROM paginas WHERE comic_id=$1 AND numero_pagina=$2",
+          [comicId, numeroPagina]
+        );
+        if (checkP.rows.length === 0) {
+          await client.query(
+            "INSERT INTO paginas (comic_id, numero_pagina, imagen_url) VALUES ($1,$2,$3)",
+            [comicId, numeroPagina, comic.paginas[numeroPagina - 1]]
+          );
+        }
+      }
+
+      await client.query("COMMIT");
+    } catch (err) {
+      await client.query("ROLLBACK");
+      console.error(`    ❌ Error en "${comic.titulo}" (rollback):`, err.message);
+    } finally {
+      client.release();
     }
   }
   console.log("✅ Sincronización completada.\n");
 }
 
-// ── SPA fallback ──
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+// ── ARRANQUE — servidor inicia de inmediato, sync corre en background ──
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  sincronizarCatalogo().catch(err =>
+    console.error("⚠ Error en sincronización (servidor activo):", err.message)
+  );
 });
-
-// ── ARRANQUE ──
-sincronizarCatalogo()
-  .then(() => {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error("❌ Error en sincronización:", err.message);
-    process.exit(1);
-  });
