@@ -27,7 +27,7 @@ app.get("/api/comics", async (req, res) => {
     const resultado = await pool.query(
       `SELECT id, titulo, portada_url, sinopsis, escritor, dibujante, series,
               anio, genero, idioma, autor_url, traductor, tags
-       FROM comics ORDER BY id ASC`,
+       FROM comics ORDER BY id DESC`,
     );
     res.json(resultado.rows);
   } catch (error) {
