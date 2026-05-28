@@ -1287,7 +1287,7 @@
         color: var(--accent);
       }
 
-      /* ── HEADER ACTIONS (Ko-fi + T&C) ── */
+      /* ── HEADER ACTIONS ── */
       .header-actions {
         margin-left: auto;
         display: flex;
@@ -1471,21 +1471,6 @@
           <h1>H4ALL<br />Comics</h1>
         </div>
         <div class="header-actions">
-          <a
-            href="https://ko-fi.com/ovejoide"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="header-action-btn"
-            aria-label="Ko-fi"
-          >
-            <span class="header-action-icon">
-              <img
-                src="https://ik.imagekit.io/rcbeujyg1/Assets/ko-fi-icon.svg?updatedAt=1779866205709"
-                alt="Ko-fi"
-              />
-            </span>
-            <span class="header-action-tooltip" data-i18n="kofiTooltip">Apóyame</span>
-          </a>
           <button
             class="header-action-btn"
             onclick="abrirTerminos()"
@@ -1921,7 +1906,6 @@
           shareSending: "Sending...",
           shareSuccess: "Thanks! We'll review your comic soon.",
           shareError: "Error sending. Please try again.",
-          kofiTooltip: "Support me",
           termsTooltip: "Terms & Conditions",
           results: (n) => `${n} result${n !== 1 ? "s" : ""} found`,
           idiomas: {
@@ -2004,7 +1988,6 @@
           shareSending: "Enviando...",
           shareSuccess: "¡Gracias! Revisaremos tu cómic pronto.",
           shareError: "Error al enviar. Intenta de nuevo.",
-          kofiTooltip: "Apóyame",
           termsTooltip: "Términos y Condiciones",
           results: (n) =>
             `${n} resultado${n !== 1 ? "s" : ""} encontrado${n !== 1 ? "s" : ""}`,
@@ -2088,7 +2071,6 @@
           shareSending: "Enviando...",
           shareSuccess: "Obrigado! Vamos analisar em breve.",
           shareError: "Erro ao enviar. Tente novamente.",
-          kofiTooltip: "Apoie-me",
           termsTooltip: "Termos e Condições",
           results: (n) =>
             `${n} resultado${n !== 1 ? "s" : ""} encontrado${n !== 1 ? "s" : ""}`,
