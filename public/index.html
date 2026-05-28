@@ -253,7 +253,15 @@
       }
       .badge-lang {
         background: #ff8000;
-        color: var(--ink);
+        padding: 3px 7px;
+        line-height: 0;
+      }
+      .badge-lang img {
+        width: 20px;
+        height: 14px;
+        object-fit: cover;
+        border-radius: 2px;
+        display: block;
       }
 
       .card-corner {
@@ -2231,6 +2239,19 @@
       let lastImgObserver = null;
       let transicionando = false;
 
+      const LANG_FLAGS = {
+        en: "https://flagcdn.com/w20/us.png",
+        es: "https://flagcdn.com/w20/es.png",
+        ja: "https://flagcdn.com/w20/jp.png",
+        fr: "https://flagcdn.com/w20/fr.png",
+        de: "https://flagcdn.com/w20/de.png",
+        pt: "https://flagcdn.com/w20/pt.png",
+        it: "https://flagcdn.com/w20/it.png",
+        zh: "https://flagcdn.com/w20/cn.png",
+        ko: "https://flagcdn.com/w20/kr.png",
+        ru: "https://flagcdn.com/w20/ru.png",
+      };
+
       function nombreIdioma(code) {
         if (!code || code === "N/A") return null;
         return (
@@ -2473,8 +2494,11 @@
             badges += `<span class="badge badge-genre">${comic.genero === "Varios" ? t("varios") : comic.genero}</span>`;
           if (comic.anio)
             badges += `<span class="badge badge-year">${comic.anio}</span>`;
-          const lang = nombreIdioma(comic.idioma);
-          if (lang) badges += `<span class="badge badge-lang">${lang}</span>`;
+          const langCode = (comic.idioma || "").toLowerCase();
+          const langFlag = LANG_FLAGS[langCode];
+          const langName = nombreIdioma(comic.idioma);
+          if (langFlag) badges += `<span class="badge badge-lang"><img src="${langFlag}" alt="${langName || langCode}" title="${langName || langCode}"></span>`;
+          else if (langName) badges += `<span class="badge badge-lang">${langName}</span>`;
           div.innerHTML = `
             <span class="card-corner">${t("read")}</span>
             <img src="${comic.portada_url}" alt="${comic.titulo}" loading="lazy">
