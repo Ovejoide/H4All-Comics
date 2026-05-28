@@ -2530,10 +2530,17 @@
         }
       }
 
+      function slugify(titulo) {
+        return titulo
+          .replace(/[^a-zA-Z0-9\s]/g, "")
+          .trim()
+          .replace(/\s+/g, "-");
+      }
+
       // ── ABRIR COMIC ──
       async function abrirComic(comic, { fromHistory = false } = {}) {
         if (!fromHistory) {
-          history.pushState({ view: "comic", comicId: comic.id }, "");
+          history.pushState({ view: "comic", comicId: comic.id }, "", "/" + slugify(comic.titulo));
         }
 
         const catalogo = document.getElementById("contenedor-comics");
@@ -2858,6 +2865,9 @@
       }
 
       function volverALista(animated = false) {
+        if (window.location.pathname !== "/") {
+          history.pushState({ view: "catalog" }, "", "/");
+        }
         if (scrollHandlerLectura) {
           window.removeEventListener("scroll", scrollHandlerLectura);
           scrollHandlerLectura = null;
@@ -3106,10 +3116,23 @@
         if (e.key === "Escape") cerrarTerminos();
       });
 
-      cargarComics();
+      async function cargarComicsYRuta() {
+        await cargarComics();
+        const slug = window.location.pathname.slice(1);
+        if (slug) {
+          const comic = todosLosComics.find(c => slugify(c.titulo) === slug);
+          if (comic) {
+            history.replaceState({ view: "comic", comicId: comic.id }, "", "/" + slug);
+            abrirComic(comic, { fromHistory: true });
+            return;
+          }
+        }
+        history.replaceState({ view: "catalog" }, "", "/");
+      }
+
+      cargarComicsYRuta();
 
       // ── History API: back / forward del navegador ──
-      history.replaceState({ view: "catalog" }, "");
 
       window.addEventListener("popstate", (e) => {
         const state = e.state;

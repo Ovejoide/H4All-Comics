@@ -166,6 +166,11 @@ async function sincronizarCatalogo() {
   console.log("✅ Sincronización completada.\n");
 }
 
+// ── SPA fallback ──
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 // ── ARRANQUE ──
 sincronizarCatalogo()
   .then(() => {
