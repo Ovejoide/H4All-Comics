@@ -1219,8 +1219,11 @@
         color: var(--paper);
       }
       .btn-lang .lang-flag {
-        font-size: 17px;
-        line-height: 1;
+        width: 20px;
+        height: auto;
+        border-radius: 2px;
+        display: block;
+        flex-shrink: 0;
       }
       .lang-dropdown {
         position: absolute;
@@ -1266,8 +1269,11 @@
         color: #fff;
       }
       .lang-flag-big {
-        font-size: 19px;
-        line-height: 1;
+        width: 20px;
+        height: auto;
+        border-radius: 2px;
+        vertical-align: middle;
+        flex-shrink: 0;
       }
       html.dark .btn-lang {
         border-color: var(--card-border);
@@ -1534,22 +1540,22 @@
       </button>
       <div class="lang-switcher">
         <button class="btn-lang" onclick="toggleLangDropdown(this)">
-          <span class="lang-flag">🇪🇸</span>
+          <img class="lang-flag" src="https://flagcdn.com/w20/es.png" alt="ES" />
           <span class="lang-name">Español</span>
         </button>
         <div class="lang-dropdown">
           <button class="lang-option" data-lang="en" onclick="selectLang('en')">
-            <span class="lang-flag-big">🇺🇸</span> English
+            <img class="lang-flag-big" src="https://flagcdn.com/w20/us.png" alt="EN" /> English
           </button>
           <button
             class="lang-option active"
             data-lang="es"
             onclick="selectLang('es')"
           >
-            <span class="lang-flag-big">🇪🇸</span> Español
+            <img class="lang-flag-big" src="https://flagcdn.com/w20/es.png" alt="ES" /> Español
           </button>
           <button class="lang-option" data-lang="pt" onclick="selectLang('pt')">
-            <span class="lang-flag-big">🇵🇹</span> Português
+            <img class="lang-flag-big" src="https://flagcdn.com/w20/pt.png" alt="PT" /> Português
           </button>
         </div>
       </div>
@@ -1784,7 +1790,7 @@
         </button>
         <div class="lang-switcher">
           <button class="btn-lang" onclick="toggleLangDropdown(this)">
-            <span class="lang-flag">🇪🇸</span>
+            <img class="lang-flag" src="https://flagcdn.com/w20/es.png" alt="ES" />
             <span class="lang-name">Español</span>
           </button>
           <div class="lang-dropdown">
@@ -1793,21 +1799,21 @@
               data-lang="en"
               onclick="selectLang('en')"
             >
-              <span class="lang-flag-big">🇺🇸</span> English
+              <img class="lang-flag-big" src="https://flagcdn.com/w20/us.png" alt="EN" /> English
             </button>
             <button
               class="lang-option active"
               data-lang="es"
               onclick="selectLang('es')"
             >
-              <span class="lang-flag-big">🇪🇸</span> Español
+              <img class="lang-flag-big" src="https://flagcdn.com/w20/es.png" alt="ES" /> Español
             </button>
             <button
               class="lang-option"
               data-lang="pt"
               onclick="selectLang('pt')"
             >
-              <span class="lang-flag-big">🇵🇹</span> Português
+              <img class="lang-flag-big" src="https://flagcdn.com/w20/pt.png" alt="PT" /> Português
             </button>
           </div>
         </div>
@@ -1846,7 +1852,6 @@
       // ── I18N ──
       const I18N = {
         en: {
-          flag: "🇺🇸",
           name: "English",
           collection: "Collection",
           titles: "titles",
@@ -1928,7 +1933,6 @@
           },
         },
         es: {
-          flag: "🇪🇸",
           name: "Español",
           collection: "Colección",
           titles: "títulos",
@@ -2011,7 +2015,6 @@
           },
         },
         pt: {
-          flag: "🇵🇹",
           name: "Português",
           collection: "Coleção",
           titles: "títulos",
@@ -2139,14 +2142,20 @@
         }
       }
 
+      const FLAG_SRCS = {
+        en: "https://flagcdn.com/w20/us.png",
+        es: "https://flagcdn.com/w20/es.png",
+        pt: "https://flagcdn.com/w20/pt.png",
+      };
+
       function updateLangBtn() {
-        const T = I18N[currentLang];
+        const src = FLAG_SRCS[currentLang];
         document
           .querySelectorAll(".lang-flag")
-          .forEach((el) => (el.textContent = T.flag));
+          .forEach((el) => { el.src = src; el.alt = currentLang.toUpperCase(); });
         document
           .querySelectorAll(".lang-name")
-          .forEach((el) => (el.textContent = T.name));
+          .forEach((el) => (el.textContent = I18N[currentLang].name));
         document.querySelectorAll(".lang-option").forEach((opt) => {
           opt.classList.toggle("active", opt.dataset.lang === currentLang);
         });
