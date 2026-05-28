@@ -47,6 +47,8 @@ async function importarCatalogo() {
 
       let sinopsis = "Sin descripción disponible.";
       let escritor = "Desconocido";
+      let dibujante = null;
+      let series = null;
       let anio = null;
       let genero = "Varios";
       let idioma = "N/A";
@@ -63,13 +65,15 @@ async function importarCatalogo() {
           const info = parseado.ComicInfo;
 
           if (info) {
-            sinopsis = limpiar(info.Summary) || sinopsis;
-            escritor = limpiar(info.Writer) || escritor;
-            anio = info.Year ? parseInt(info.Year) : null;
-            genero = limpiar(info.Genre) || genero;
-            idioma = limpiar(info.LanguageISO) || idioma;
+            sinopsis  = limpiar(info.Summary)     || sinopsis;
+            escritor  = limpiar(info.Writer)      || escritor;
+            dibujante = limpiar(info.Penciller);
+            series    = limpiar(info.Series);
+            anio      = info.Year ? parseInt(info.Year) : null;
+            genero    = limpiar(info.Genre)       || genero;
+            idioma    = limpiar(info.LanguageISO) || idioma;
             traductor = limpiar(info.Traductor);
-            tags = limpiar(info.Tags);
+            tags      = limpiar(info.Tags);
 
             // Extraer URL desde el campo Notes
             const notes = String(info.Notes || "");
@@ -98,40 +102,22 @@ async function importarCatalogo() {
         nuevoComicId = checkComic.rows[0].id;
         await pool.query(
           `UPDATE comics
-           SET sinopsis=$1, escritor=$2, anio=$3, genero=$4, idioma=$5, autor_url=$6, traductor=$7, tags=$8
-           WHERE id=$9`,
-          [
-            sinopsis,
-            escritor,
-            anio,
-            genero,
-            idioma,
-            autor_url,
-            traductor,
-            tags,
-            nuevoComicId,
-          ],
+           SET sinopsis=$1, escritor=$2, dibujante=$3, series=$4, anio=$5,
+               genero=$6, idioma=$7, autor_url=$8, traductor=$9, tags=$10
+           WHERE id=$11`,
+          [sinopsis, escritor, dibujante, series, anio, genero, idioma, autor_url, traductor, tags, nuevoComicId],
         );
         console.log(
           `⚠ Cómic ya existe (ID: ${nuevoComicId}). Metadatos actualizados.`,
         );
       } else {
         const resComic = await pool.query(
-          `INSERT INTO comics (titulo, portada_url, sinopsis, escritor, anio, genero, idioma, autor_url, traductor, tags)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+          `INSERT INTO comics (titulo, portada_url, sinopsis, escritor, dibujante, series,
+                              anio, genero, idioma, autor_url, traductor, tags)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
            RETURNING id;`,
-          [
-            comic.titulo,
-            comic.portada_url,
-            sinopsis,
-            escritor,
-            anio,
-            genero,
-            idioma,
-            autor_url,
-            traductor,
-            tags,
-          ],
+          [comic.titulo, comic.portada_url, sinopsis, escritor, dibujante, series,
+           anio, genero, idioma, autor_url, traductor, tags],
         );
         nuevoComicId = resComic.rows[0].id;
         console.log(`✓ Cómic registrado (ID: ${nuevoComicId})`);
