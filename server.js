@@ -22,6 +22,21 @@ const pool = process.env.DATABASE_URL
 app.use(express.static(path.join(__dirname, "public")));
 
 // ── COMICS ──
+function sortComics(rows) {
+  const groups = {};
+  for (const c of rows) {
+    const m = c.titulo.match(/^(.+)\s(\d+)$/);
+    const base = m ? m[1] : c.titulo;
+    const num  = m ? parseInt(m[2]) : null;
+    if (!groups[base]) groups[base] = { maxId: 0, items: [] };
+    if (c.id > groups[base].maxId) groups[base].maxId = c.id;
+    groups[base].items.push({ ...c, _num: num });
+  }
+  return Object.values(groups)
+    .sort((a, b) => b.maxId - a.maxId)
+    .flatMap(g => g.items.sort((a, b) => (a._num ?? 0) - (b._num ?? 0)));
+}
+
 app.get("/api/comics", async (req, res) => {
   try {
     const resultado = await pool.query(
@@ -29,7 +44,7 @@ app.get("/api/comics", async (req, res) => {
               anio, genero, idioma, autor_url, traductor, tags
        FROM comics ORDER BY id DESC`,
     );
-    res.json(resultado.rows);
+    res.json(sortComics(resultado.rows));
   } catch (error) {
     console.error("Error en /api/comics:", error.message);
     res.status(500).json({ error: error.message });
