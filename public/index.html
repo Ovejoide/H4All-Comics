@@ -2117,6 +2117,7 @@
           if (T[k] !== undefined) el.placeholder = T[k];
         });
         updateLangBtn();
+        if (document.getElementById("tnc-overlay").classList.contains("open")) renderTnc();
         updateBtn(document.documentElement.classList.contains("dark"));
         if (typeof LABELS_FILTRO !== "undefined") {
           Object.assign(LABELS_FILTRO, T.labelsFilter);
@@ -2969,7 +2970,96 @@
       }
 
       // ── TÉRMINOS Y CONDICIONES ──
+      const TNC = {
+        es: {
+          title: "Términos y Condiciones",
+          meta: "Versión 2026.3.3 · Última revisión: 27 de mayo de 2026 · Estatus: Vigente / Público",
+          body: `
+            <p>Por favor, lea detenidamente este documento antes de acceder, utilizar, contribuir o interactuar con la plataforma <strong>H4ALL Comics</strong>. El acceso al sitio implica la aceptación formal, expresa e irrevocable de la totalidad de las cláusulas aquí escritas.</p>
+            <p class="tnc-section-title">1. Objeto, Existencia y Naturaleza</p>
+            <p>H4All Comics existe como repositorio, indexador y portal de distribución digital de cómics e ilustraciones de naturaleza explícita, de uso exclusivo para adultos (mayores de 18 años, o la edad legal de mayoría en la jurisdicción del usuario). Su único fin es proveer una infraestructura web optimizada para que autores independientes y usuarios autorizados publiquen, mantengan y visualicen material de arte secuencial para adultos.</p>
+            <p class="tnc-section-title">2. Naturaleza del Software — Licencia MIT</p>
+            <p>El código fuente, scripts, lógica de backend y base de datos se distribuyen bajo la <strong>Licencia MIT</strong>. Copyright (c) 2026 H4All Comics Development Team. Esta licencia se aplica <strong>exclusivamente al software</strong>. Los cómics, ilustraciones, textos y demás material artístico alojado en la página son privados y protegidos por derechos de autor; la permisividad MIT no se extiende a ellos bajo ninguna circunstancia.</p>
+            <p class="tnc-section-title">3. Política de Publicación y Administración</p>
+            <p>El equipo de administración se reserva el derecho de indexar, categorizar, pausar o dar de baja cualquier obra por motivos de mantenimiento u optimización. Todo cómic nuevo de usuarios no verificados ingresa en una cola de aislamiento (<em>Sandbox</em>) invisible al público hasta ser auditado manualmente en un plazo máximo de 24 horas. La plataforma no usa filtrado automatizado; toda subida es inspeccionada visualmente por el equipo antes de integrarse en producción.</p>
+            <p>Los enlaces externos compartidos mediante la función "Compartir" quedan sujetos a las normativas globales del sitio. Su uso para difundir material prohibido conlleva la rescisión permanente de la cuenta sin posibilidad de apelación.</p>
+            <p class="tnc-section-title">4. Política de Tolerancia Cero</p>
+            <p>Queda prohibida de forma irrevocable la subida o enlace de:</p>
+            <ul>
+              <li><strong>CSAM / CP:</strong> Cualquier detección notificará de forma automatizada al NCMEC y Europol.</li>
+              <li><strong>Estéticas infantiles en ficción (Loli / Shota):</strong> Prohibición total, independientemente de la narrativa o justificación del personaje.</li>
+              <li><strong>Violencia extrema (Gore / Snuff):</strong> Desmembramientos explícitos, tortura, mutilaciones o necrofilia que excedan los estándares del arte dramático de ficción.</li>
+              <li><strong>Fetiches de degradación biológica:</strong> Coprofagia, fluidos peligrosos o Vore extremo.</li>
+            </ul>
+            <p class="tnc-section-title">5. Derechos de Autor y Protocolo de Retirada (Takedown)</p>
+            <p>H4All Comics no reclama propiedad de los cómics de terceros y garantiza la atribución visible al creador con enlaces a sus canales oficiales. Todo artista titular puede solicitar la remoción definitiva de su obra mediante petición verbal (con verificación de identidad), escrita (correo o formulario) o legalizada (DMCA). La purga técnica completa se procesará en un máximo de <strong>12 horas</strong> tras confirmar la titularidad.</p>
+            <p class="tnc-section-title">6. Limitación de Responsabilidad y Jurisdicción</p>
+            <p>El software y la distribución se proveen <strong>"TAL CUAL"</strong>, sin garantías respecto a caídas del servidor, interrupciones técnicas o pérdida de datos por ataques cibernéticos. La administración se reserva el derecho de enmendar estos términos para adecuarse a normativas bancarias o regulatorias. El uso continuado del sitio tras la publicación de cambios constituye la aceptación íntegra del nuevo texto normativo.</p>
+          `,
+        },
+        en: {
+          title: "Terms & Conditions",
+          meta: "Version 2026.3.3 · Last revised: May 27, 2026 · Status: Active / Public",
+          body: `
+            <p>Please read this document carefully before accessing, using, contributing to, or interacting with the <strong>H4ALL Comics</strong> platform. Accessing the site constitutes formal, express, and irrevocable acceptance of all clauses contained herein.</p>
+            <p class="tnc-section-title">1. Purpose, Existence and Nature</p>
+            <p>H4All Comics exists as a repository, indexer, and digital distribution portal for comics and illustrations of an explicit nature, for exclusive use by adults (18 years of age or older, or the legal age of majority in the user's jurisdiction). Its sole purpose is to provide an optimized web infrastructure for independent authors and authorized users to publish, maintain, and view adult sequential art.</p>
+            <p class="tnc-section-title">2. Software Nature — MIT License</p>
+            <p>The source code, scripts, backend logic, and database are distributed under the <strong>MIT License</strong>. Copyright (c) 2026 H4All Comics Development Team. This license applies <strong>exclusively to the software</strong>. Comics, illustrations, texts, and other artistic material hosted on the site are private and protected by copyright; MIT permissiveness does not extend to them under any circumstances.</p>
+            <p class="tnc-section-title">3. Publication and Administration Policy</p>
+            <p>The administration team reserves the right to index, categorize, pause, or remove any work for maintenance or optimization reasons. Every new comic from unverified users enters a public-invisible isolation queue (<em>Sandbox</em>) until manually audited within a maximum of 24 hours. The platform does not use automated filtering; every upload is visually inspected by the team before being integrated into production.</p>
+            <p>External links shared via the "Share" function are subject to the site's global regulations. Using them to distribute prohibited content results in permanent account termination with no right of appeal.</p>
+            <p class="tnc-section-title">4. Zero Tolerance Policy</p>
+            <p>The following are irrevocably prohibited from upload or linking:</p>
+            <ul>
+              <li><strong>CSAM / CP:</strong> Any detection will automatically notify the NCMEC and Europol.</li>
+              <li><strong>Child-like aesthetics in fiction (Loli / Shota):</strong> Total prohibition, regardless of the character's narrative or justification.</li>
+              <li><strong>Extreme violence (Gore / Snuff):</strong> Explicit dismemberment, torture, mutilation or necrophilia exceeding the standards of dramatic fiction art.</li>
+              <li><strong>Biological degradation fetishes:</strong> Coprophagia, hazardous fluids, or extreme Vore.</li>
+            </ul>
+            <p class="tnc-section-title">5. Copyright and Takedown Protocol</p>
+            <p>H4All Comics does not claim ownership of third-party comics and guarantees visible attribution to the creator with links to their official channels. Any rights-holding artist may request permanent removal of their work via verbal request (with identity verification), written request (email or form), or legalized notice (DMCA). The complete technical purge will be processed within a maximum of <strong>12 hours</strong> after confirming ownership.</p>
+            <p class="tnc-section-title">6. Limitation of Liability and Jurisdiction</p>
+            <p>The software and distribution are provided <strong>"AS IS"</strong>, without warranties regarding server downtime, technical interruptions, or data loss from cyberattacks. The administration reserves the right to amend these terms to comply with banking or regulatory requirements. Continued use of the site after changes are published constitutes full acceptance of the new regulatory text.</p>
+          `,
+        },
+        pt: {
+          title: "Termos e Condições",
+          meta: "Versão 2026.3.3 · Última revisão: 27 de maio de 2026 · Status: Vigente / Público",
+          body: `
+            <p>Por favor, leia atentamente este documento antes de acessar, utilizar, contribuir ou interagir com a plataforma <strong>H4ALL Comics</strong>. O acesso ao site implica a aceitação formal, expressa e irrevogável da totalidade das cláusulas aqui escritas.</p>
+            <p class="tnc-section-title">1. Objeto, Existência e Natureza</p>
+            <p>H4All Comics existe como repositório, indexador e portal de distribuição digital de quadrinhos e ilustrações de natureza explícita, de uso exclusivo para adultos (maiores de 18 anos, ou a idade legal de maioridade na jurisdição do usuário). Seu único fim é prover uma infraestrutura web otimizada para que autores independentes e usuários autorizados publiquem, mantenham e visualizem material de arte sequencial para adultos.</p>
+            <p class="tnc-section-title">2. Natureza do Software — Licença MIT</p>
+            <p>O código-fonte, scripts, lógica de backend e banco de dados são distribuídos sob a <strong>Licença MIT</strong>. Copyright (c) 2026 H4All Comics Development Team. Esta licença se aplica <strong>exclusivamente ao software</strong>. Os quadrinhos, ilustrações, textos e demais material artístico hospedado no site são privados e protegidos por direitos autorais; a permissividade MIT não se estende a eles sob nenhuma circunstância.</p>
+            <p class="tnc-section-title">3. Política de Publicação e Administração</p>
+            <p>A equipe de administração reserva-se o direito de indexar, categorizar, pausar ou remover qualquer obra por motivos de manutenção ou otimização. Todo quadrinho novo de usuários não verificados entra em uma fila de isolamento (<em>Sandbox</em>) invisível ao público até ser auditado manualmente em um prazo máximo de 24 horas. A plataforma não utiliza filtragem automatizada; todo envio é inspecionado visualmente pela equipe antes de ser integrado em produção.</p>
+            <p>Os links externos compartilhados por meio da função "Compartilhar" estão sujeitos às normativas globais do site. Seu uso para difundir material proibido implica rescisão permanente da conta sem possibilidade de apelação.</p>
+            <p class="tnc-section-title">4. Política de Tolerância Zero</p>
+            <p>Fica irrevogavelmente proibido o envio ou link de:</p>
+            <ul>
+              <li><strong>CSAM / CP:</strong> Qualquer detecção notificará automaticamente o NCMEC e a Europol.</li>
+              <li><strong>Estéticas infantis em ficção (Loli / Shota):</strong> Proibição total, independentemente da narrativa ou justificativa do personagem.</li>
+              <li><strong>Violência extrema (Gore / Snuff):</strong> Desmembramentos explícitos, tortura, mutilações ou necrofilia que excedam os padrões da arte dramática de ficção.</li>
+              <li><strong>Fetiches de degradação biológica:</strong> Coprofagia, fluidos perigosos ou Vore extremo.</li>
+            </ul>
+            <p class="tnc-section-title">5. Direitos Autorais e Protocolo de Remoção (Takedown)</p>
+            <p>H4All Comics não reivindica propriedade dos quadrinhos de terceiros e garante a atribuição visível ao criador com links para seus canais oficiais. Todo artista titular pode solicitar a remoção definitiva de sua obra por meio de pedido verbal (com verificação de identidade), escrito (e-mail ou formulário) ou legalizado (DMCA). A purga técnica completa será processada em no máximo <strong>12 horas</strong> após confirmar a titularidade.</p>
+            <p class="tnc-section-title">6. Limitação de Responsabilidade e Jurisdição</p>
+            <p>O software e a distribuição são fornecidos <strong>"NO ESTADO EM QUE SE ENCONTRAM"</strong>, sem garantias quanto a quedas do servidor, interrupções técnicas ou perda de dados por ataques cibernéticos. A administração reserva-se o direito de emendar estes termos para adequar-se a normativas bancárias ou regulatórias. O uso contínuo do site após a publicação de alterações constitui aceitação íntegra do novo texto normativo.</p>
+          `,
+        },
+      };
+
+      function renderTnc() {
+        const d = TNC[currentLang] || TNC.es;
+        document.getElementById("tnc-main-title").textContent = d.title;
+        document.getElementById("tnc-meta").textContent = d.meta;
+        document.getElementById("tnc-body").innerHTML = d.body;
+      }
+
       function abrirTerminos() {
+        renderTnc();
         const overlay = document.getElementById("tnc-overlay");
         overlay.classList.remove("closing");
         overlay.classList.add("open");
@@ -3029,37 +3119,10 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
           </svg>
-          <span class="tnc-main-title">Términos y Condiciones</span>
+          <span class="tnc-main-title" id="tnc-main-title">Términos y Condiciones</span>
         </div>
-        <p class="tnc-meta">Versión 2026.3.3 · Última revisión: 27 de mayo de 2026 · Estatus: Vigente / Público</p>
-        <div class="tnc-body">
-          <p>Por favor, lea detenidamente este documento antes de acceder, utilizar, contribuir o interactuar con la plataforma <strong>H4ALL Comics</strong>. El acceso al sitio implica la aceptación formal, expresa e irrevocable de la totalidad de las cláusulas aquí escritas.</p>
-
-          <p class="tnc-section-title">1. Objeto, Existencia y Naturaleza</p>
-          <p>H4All Comics existe como repositorio, indexador y portal de distribución digital de cómics e ilustraciones de naturaleza explícita, de uso exclusivo para adultos (mayores de 18 años, o la edad legal de mayoría en la jurisdicción del usuario). Su único fin es proveer una infraestructura web optimizada para que autores independientes y usuarios autorizados publiquen, mantengan y visualicen material de arte secuencial para adultos.</p>
-
-          <p class="tnc-section-title">2. Naturaleza del Software — Licencia MIT</p>
-          <p>El código fuente, scripts, lógica de backend y base de datos se distribuyen bajo la <strong>Licencia MIT</strong>. Copyright (c) 2026 H4All Comics Development Team. Esta licencia se aplica <strong>exclusivamente al software</strong>. Los cómics, ilustraciones, textos y demás material artístico alojado en la página son privados y protegidos por derechos de autor; la permisividad MIT no se extiende a ellos bajo ninguna circunstancia.</p>
-
-          <p class="tnc-section-title">3. Política de Publicación y Administración</p>
-          <p>El equipo de administración se reserva el derecho de indexar, categorizar, pausar o dar de baja cualquier obra por motivos de mantenimiento u optimización. Todo cómic nuevo de usuarios no verificados ingresa en una cola de aislamiento (<em>Sandbox</em>) invisible al público hasta ser auditado manualmente en un plazo máximo de 24 horas. La plataforma no usa filtrado automatizado; toda subida es inspeccionada visualmente por el equipo antes de integrarse en producción.</p>
-          <p>Los enlaces externos compartidos mediante la función "Compartir" quedan sujetos a las normativas globales del sitio. Su uso para difundir material prohibido conlleva la rescisión permanente de la cuenta sin posibilidad de apelación.</p>
-
-          <p class="tnc-section-title">4. Política de Tolerancia Cero</p>
-          <p>Queda prohibida de forma irrevocable la subida o enlace de:</p>
-          <ul>
-            <li><strong>CSAM / CP:</strong> Cualquier detección notificará de forma automatizada al NCMEC y Europol.</li>
-            <li><strong>Estéticas infantiles en ficción (Loli / Shota):</strong> Prohibición total, independientemente de la narrativa o justificación del personaje.</li>
-            <li><strong>Violencia extrema (Gore / Snuff):</strong> Desmembramientos explícitos, tortura, mutilaciones o necrofilia que excedan los estándares del arte dramático de ficción.</li>
-            <li><strong>Fetiches de degradación biológica:</strong> Coprofagia, fluidos peligrosos o Vore extremo.</li>
-          </ul>
-
-          <p class="tnc-section-title">5. Derechos de Autor y Protocolo de Retirada (Takedown)</p>
-          <p>H4All Comics no reclama propiedad de los cómics de terceros y garantiza la atribución visible al creador con enlaces a sus canales oficiales. Todo artista titular puede solicitar la remoción definitiva de su obra mediante petición verbal (con verificación de identidad), escrita (correo o formulario) o legalizada (DMCA). La purga técnica completa se procesará en un máximo de <strong>12 horas</strong> tras confirmar la titularidad.</p>
-
-          <p class="tnc-section-title">6. Limitación de Responsabilidad y Jurisdicción</p>
-          <p>El software y la distribución se proveen <strong>"TAL CUAL"</strong>, sin garantías respecto a caídas del servidor, interrupciones técnicas o pérdida de datos por ataques cibernéticos. La administración se reserva el derecho de enmendar estos términos para adecuarse a normativas bancarias o regulatorias. El uso continuado del sitio tras la publicación de cambios constituye la aceptación íntegra del nuevo texto normativo.</p>
-        </div>
+        <p class="tnc-meta" id="tnc-meta">Versión 2026.3.3 · Última revisión: 27 de mayo de 2026 · Estatus: Vigente / Público</p>
+        <div class="tnc-body" id="tnc-body"></div>
       </div>
     </div>
   </body>
