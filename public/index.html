@@ -1552,21 +1552,7 @@
           <img class="lang-flag" src="https://flagcdn.com/w20/es.png" alt="ES" />
           <span class="lang-name">Español</span>
         </button>
-        <div class="lang-dropdown">
-          <button class="lang-option" data-lang="en" onclick="selectLang('en')">
-            <img class="lang-flag-big" src="https://flagcdn.com/w20/us.png" alt="EN" /> English
-          </button>
-          <button
-            class="lang-option active"
-            data-lang="es"
-            onclick="selectLang('es')"
-          >
-            <img class="lang-flag-big" src="https://flagcdn.com/w20/es.png" alt="ES" /> Español
-          </button>
-          <button class="lang-option" data-lang="pt" onclick="selectLang('pt')">
-            <img class="lang-flag-big" src="https://flagcdn.com/w20/pt.png" alt="PT" /> Português
-          </button>
-        </div>
+        <div class="lang-dropdown"></div>
       </div>
       <button class="btn-theme" onclick="toggleTheme()" id="btn-theme-toolbar">
         <span class="theme-icon">☽</span> Dark
@@ -1802,29 +1788,7 @@
             <img class="lang-flag" src="https://flagcdn.com/w20/es.png" alt="ES" />
             <span class="lang-name">Español</span>
           </button>
-          <div class="lang-dropdown">
-            <button
-              class="lang-option"
-              data-lang="en"
-              onclick="selectLang('en')"
-            >
-              <img class="lang-flag-big" src="https://flagcdn.com/w20/us.png" alt="EN" /> English
-            </button>
-            <button
-              class="lang-option active"
-              data-lang="es"
-              onclick="selectLang('es')"
-            >
-              <img class="lang-flag-big" src="https://flagcdn.com/w20/es.png" alt="ES" /> Español
-            </button>
-            <button
-              class="lang-option"
-              data-lang="pt"
-              onclick="selectLang('pt')"
-            >
-              <img class="lang-flag-big" src="https://flagcdn.com/w20/pt.png" alt="PT" /> Português
-            </button>
-          </div>
+          <div class="lang-dropdown"></div>
         </div>
         <button
           class="btn-theme"
@@ -1859,7 +1823,26 @@
       })();
 
       // ── I18N ──
-      const I18N = {
+      // ── Para agregar un idioma: 1 entrada aquí + crear public/i18n/XX.json ──
+      const LANGS = [
+        { code: "es", name: "Español",   flag: "https://flagcdn.com/w20/es.png" },
+        { code: "en", name: "English",   flag: "https://flagcdn.com/w20/us.png" },
+        { code: "pt", name: "Português", flag: "https://flagcdn.com/w20/pt.png" },
+      ];
+
+      const I18N = {}; // cache — se carga bajo demanda desde /i18n/XX.json
+
+      async function loadLang(lang) {
+        if (I18N[lang]) return;
+        try {
+          const res = await fetch(`/i18n/${lang}.json`);
+          I18N[lang] = await res.json();
+        } catch {
+          if (!I18N[lang]) I18N[lang] = I18N.es || {};
+        }
+      }
+
+      const _I18N_UNUSED = {
         en: {
           name: "English",
           collection: "Collection",
@@ -2105,15 +2088,23 @@
             ru: "Russo",
           },
         },
-      };
+      }; // fin _I18N_UNUSED (bloque legacy eliminado)
 
       let currentLang = localStorage.getItem("lang") || "es";
 
       function t(key) {
-        return I18N[currentLang][key];
+        return (I18N[currentLang] || {})[key] ?? key;
       }
 
-      function applyLang(lang) {
+      function tResults(n) {
+        const T = I18N[currentLang] || {};
+        return n === 1
+          ? (T.resultsOne || `${n}`)
+          : (T.resultsMany || `${n}`).replace("{n}", n);
+      }
+
+      async function applyLang(lang) {
+        await loadLang(lang);
         currentLang = lang;
         localStorage.setItem("lang", lang);
         const T = I18N[lang];
@@ -2131,44 +2122,33 @@
         if (typeof LABELS_FILTRO !== "undefined") {
           Object.assign(LABELS_FILTRO, T.labelsFilter);
         }
-        if (
-          typeof renderFiltrosActivos === "function" &&
-          typeof filtrosActivos !== "undefined"
-        ) {
+        if (typeof renderFiltrosActivos === "function" && typeof filtrosActivos !== "undefined") {
           renderFiltrosActivos();
         }
-        if (
-          typeof todosLosComics !== "undefined" &&
-          todosLosComics.length > 0
-        ) {
-          if (typeof poblarSelects === "function")
-            poblarSelects(todosLosComics);
+        if (typeof todosLosComics !== "undefined" && todosLosComics.length > 0) {
+          if (typeof poblarSelects === "function") poblarSelects(todosLosComics);
           if (typeof renderGrid === "function")
-            renderGrid(
-              typeof filtrarComics === "function"
-                ? filtrarComics()
-                : todosLosComics,
-            );
+            renderGrid(typeof filtrarComics === "function" ? filtrarComics() : todosLosComics);
         }
       }
 
-      const FLAG_SRCS = {
-        en: "https://flagcdn.com/w20/us.png",
-        es: "https://flagcdn.com/w20/es.png",
-        pt: "https://flagcdn.com/w20/pt.png",
-      };
-
       function updateLangBtn() {
-        const src = FLAG_SRCS[currentLang];
-        document
-          .querySelectorAll(".lang-flag")
-          .forEach((el) => { el.src = src; el.alt = currentLang.toUpperCase(); });
-        document
-          .querySelectorAll(".lang-name")
-          .forEach((el) => (el.textContent = I18N[currentLang].name));
-        document.querySelectorAll(".lang-option").forEach((opt) => {
-          opt.classList.toggle("active", opt.dataset.lang === currentLang);
-        });
+        const lang = LANGS.find(l => l.code === currentLang) || LANGS[0];
+        document.querySelectorAll(".lang-flag")
+          .forEach(el => { el.src = lang.flag; el.alt = currentLang.toUpperCase(); });
+        document.querySelectorAll(".lang-name")
+          .forEach(el => el.textContent = (I18N[currentLang] || {}).name || currentLang);
+        document.querySelectorAll(".lang-option")
+          .forEach(opt => opt.classList.toggle("active", opt.dataset.lang === currentLang));
+      }
+
+      function renderLangDropdowns() {
+        const html = LANGS.map(l => `
+          <button class="lang-option${l.code === currentLang ? " active" : ""}"
+                  data-lang="${l.code}" onclick="selectLang('${l.code}')">
+            <img class="lang-flag-big" src="${l.flag}" alt="${l.code.toUpperCase()}" /> ${l.name}
+          </button>`).join("");
+        document.querySelectorAll(".lang-dropdown").forEach(dd => dd.innerHTML = html);
       }
 
       function toggleLangDropdown(btn) {
@@ -2177,23 +2157,17 @@
         document.querySelectorAll(".lang-dropdown.open").forEach((d) => {
           if (d !== dd) {
             d.classList.remove("open");
-            d.closest(".lang-switcher")
-              .querySelector(".btn-lang")
-              .classList.remove("open");
+            d.closest(".lang-switcher").querySelector(".btn-lang").classList.remove("open");
           }
         });
         const isOpen = dd.classList.toggle("open");
         btn.classList.toggle("open", isOpen);
       }
 
-      function selectLang(lang) {
-        document
-          .querySelectorAll(".lang-dropdown")
-          .forEach((d) => d.classList.remove("open"));
-        document
-          .querySelectorAll(".btn-lang")
-          .forEach((b) => b.classList.remove("open"));
-        applyLang(lang);
+      async function selectLang(lang) {
+        document.querySelectorAll(".lang-dropdown").forEach(d => d.classList.remove("open"));
+        document.querySelectorAll(".btn-lang").forEach(b => b.classList.remove("open"));
+        await applyLang(lang);
       }
 
       document.addEventListener("click", (e) => {
@@ -2224,8 +2198,9 @@
         localStorage.setItem("theme", isDark ? "dark" : "light");
         updateBtn(isDark);
       }
-      document.addEventListener("DOMContentLoaded", () => {
-        applyLang(currentLang);
+      document.addEventListener("DOMContentLoaded", async () => {
+        await applyLang(currentLang);
+        renderLangDropdowns();
       });
     </script>
 
@@ -2449,7 +2424,7 @@
         const resultados = filtrarComics();
         renderGrid(resultados);
         document.getElementById("search-count").textContent = busquedaActiva
-          ? t("results")(resultados.length)
+          ? tResults(resultados.length)
           : "";
       }
 
@@ -3005,7 +2980,7 @@
       }
 
       // ── TÉRMINOS Y CONDICIONES ──
-      const TNC = {
+      const TNC_UNUSED = {
         es: {
           title: "Términos y Condiciones",
           meta: "Versión 2026.3.3 · Última revisión: 27 de mayo de 2026 · Estatus: Vigente / Público",
@@ -3087,10 +3062,10 @@
       };
 
       function renderTnc() {
-        const d = TNC[currentLang] || TNC.es;
-        document.getElementById("tnc-main-title").textContent = d.title;
-        document.getElementById("tnc-meta").textContent = d.meta;
-        document.getElementById("tnc-body").innerHTML = d.body;
+        const d = (I18N[currentLang] || I18N.es || {}).tnc || {};
+        document.getElementById("tnc-main-title").textContent = d.title || "";
+        document.getElementById("tnc-meta").textContent = d.meta || "";
+        document.getElementById("tnc-body").innerHTML = d.body || "";
       }
 
       function abrirTerminos() {
