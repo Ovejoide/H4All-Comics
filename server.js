@@ -70,22 +70,22 @@ app.get("/api/comics/:id/paginas", async (req, res) => {
 // ── CORREO CON NODEMAILER (Gmail SMTP) ──
 const nodemailer = require("nodemailer");
 
-function crearTransporter() {
-  const email = process.env.CONTACT_EMAIL;
-  const pass  = process.env.GMAIL_APP_PASSWORD;
-  if (!email || !pass) throw new Error("CONTACT_EMAIL o GMAIL_APP_PASSWORD no configurados");
-  return nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: { user: email, pass },
-  });
-}
+const mailer = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  pool: true,
+  maxConnections: 3,
+  auth: {
+    user: process.env.CONTACT_EMAIL,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 async function enviarCorreo(subject, htmlBody) {
   const email = process.env.CONTACT_EMAIL;
-  const transporter = crearTransporter();
-  await transporter.sendMail({
+  if (!email || !process.env.GMAIL_APP_PASSWORD) throw new Error("Credenciales de correo no configuradas");
+  await mailer.sendMail({
     from: `"H4ALL Comics" <${email}>`,
     to: email,
     subject,
