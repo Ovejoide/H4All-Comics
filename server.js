@@ -68,15 +68,23 @@ app.get("/api/comics/:id/paginas", async (req, res) => {
 });
 
 // ── PROXY DE FORMULARIOS (el correo nunca sale al frontend) ──
+const SITE_URL = process.env.SITE_URL || "https://h4all-comics.onrender.com";
+
 async function enviarFormsubmit(subject, campos) {
   const email = process.env.CONTACT_EMAIL;
   if (!email) throw new Error("CONTACT_EMAIL no configurado");
   const r = await fetch(`https://formsubmit.co/ajax/${email}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Origin": SITE_URL,
+      "Referer": SITE_URL + "/",
+    },
     body: JSON.stringify({ _subject: subject, _captcha: "false", ...campos }),
   });
-  if (!r.ok) throw new Error("FormSubmit error " + r.status);
+  const body = await r.text();
+  if (!r.ok) throw new Error(`FormSubmit ${r.status}: ${body}`);
 }
 
 app.post("/api/contacto", async (req, res) => {
