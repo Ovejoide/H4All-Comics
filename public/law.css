@@ -154,30 +154,64 @@ html.dark .tnc-card { border-color: var(--card-border); }
 }
 
 /* ── Modal de Soporte ── */
-.support-card {
-  max-width: 500px;
-}
-.support-select {
-  font-family: "Crimson Pro", Georgia, serif;
-  font-size: 15px;
-  color: var(--ink);
+.support-card { max-width: 500px; }
+
+.support-tipo-picker { position: relative; width: 100%; }
+
+.support-tipo-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: transparent;
   border: none;
   border-bottom: 1.5px solid rgba(13,13,13,0.25);
   padding: 6px 0;
-  outline: none;
-  width: 100%;
   cursor: pointer;
-  -webkit-appearance: none;
-  appearance: none;
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: 15px;
+  color: var(--ink);
+  text-align: left;
   transition: border-color 0.2s;
 }
-.support-select:focus { border-bottom-color: var(--accent); }
-html.dark .support-select {
-  color: var(--ink);
-  border-bottom-color: rgba(232,224,208,0.25);
+.support-tipo-btn:focus,
+.support-tipo-btn:hover { border-bottom-color: var(--accent); outline: none; }
+.support-tipo-btn svg { flex-shrink: 0; stroke: var(--muted); transition: transform 0.18s; }
+
+.support-tipo-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: var(--paper);
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  z-index: 200;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
 }
-html.dark .support-select:focus { border-bottom-color: var(--accent); }
+.support-tipo-dropdown.open { display: flex; }
+
+.support-tipo-option {
+  background: transparent;
+  border: none;
+  padding: 10px 14px;
+  text-align: left;
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.support-tipo-option:hover    { background: var(--paper-dark); }
+.support-tipo-option.active   { background: var(--accent); color: #fff; }
+
+html.dark .support-tipo-btn  { color: var(--ink); border-bottom-color: rgba(232,224,208,0.25); }
+html.dark .support-tipo-dropdown { background: var(--card-bg); border-color: var(--card-border); }
+html.dark .support-tipo-option   { color: var(--ink); }
+html.dark .support-tipo-option:hover  { background: rgba(255,255,255,0.06); }
+html.dark .support-tipo-option.active { background: var(--accent); color: #fff; }
 
 @media (max-width: 600px) {
   .tnc-card {

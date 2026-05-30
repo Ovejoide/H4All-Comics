@@ -2799,12 +2799,33 @@
           document.getElementById("support-form").reset();
           document.getElementById("support-msg").textContent = "";
           document.getElementById("support-msg").className = "share-msg";
+          const firstOpt = document.querySelector(".support-tipo-option");
+          if (firstOpt) selectSupportTipo(firstOpt);
         }, 200);
       }
 
       function cerrarSoporteOverlay(e) {
         if (e.target === e.currentTarget) cerrarSoporte();
       }
+
+      function toggleSupportTipo() {
+        const dd = document.getElementById("support-tipo-dropdown");
+        dd.classList.toggle("open");
+      }
+
+      function selectSupportTipo(btn) {
+        document.querySelectorAll(".support-tipo-option").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("support-tipo-label").textContent = btn.textContent;
+        document.getElementById("support-tipo").value = btn.textContent;
+        document.getElementById("support-tipo-dropdown").classList.remove("open");
+      }
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest("#support-tipo-picker")) {
+          document.getElementById("support-tipo-dropdown")?.classList.remove("open");
+        }
+      });
 
       async function enviarSoporte(e) {
         e.preventDefault();
@@ -2954,11 +2975,18 @@
         <form id="support-form" onsubmit="enviarSoporte(event)">
           <div class="share-field" style="margin-top:8px">
             <label class="share-label" data-i18n="supportType">Tipo</label>
-            <select id="support-tipo" class="support-select">
-              <option data-i18n="supportTypeOpt1">Sugerencia</option>
-              <option data-i18n="supportTypeOpt2">Error en la página</option>
-              <option data-i18n="supportTypeOpt3">Otro</option>
-            </select>
+            <div class="support-tipo-picker" id="support-tipo-picker">
+              <button type="button" class="support-tipo-btn" id="support-tipo-btn" onclick="toggleSupportTipo()">
+                <span id="support-tipo-label" data-i18n="supportTypeOpt1">Sugerencia</span>
+                <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+              <div class="support-tipo-dropdown" id="support-tipo-dropdown">
+                <button type="button" class="support-tipo-option active" data-value="supportTypeOpt1" data-i18n="supportTypeOpt1" onclick="selectSupportTipo(this)">Sugerencia</button>
+                <button type="button" class="support-tipo-option" data-value="supportTypeOpt2" data-i18n="supportTypeOpt2" onclick="selectSupportTipo(this)">Error en la página</button>
+                <button type="button" class="support-tipo-option" data-value="supportTypeOpt3" data-i18n="supportTypeOpt3" onclick="selectSupportTipo(this)">Otro</button>
+              </div>
+            </div>
+            <input type="hidden" id="support-tipo" value="Sugerencia" />
           </div>
           <div class="share-field">
             <label class="share-label" data-i18n="supportMsg">Mensaje</label>
