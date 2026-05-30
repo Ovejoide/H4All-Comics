@@ -1530,10 +1530,18 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/></svg>
         <span data-i18n="lblSearch">Buscar</span>
       </button>
+      <button class="btn-support-toggle" id="btn-soporte" onclick="abrirSoporte()">
+        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span data-i18n="supportBtn">Soporte</span>
+      </button>
       <button
         class="btn-share-toggle"
         id="btn-compartir-toolbar"
-        onclick="toggleCompartir()"
+        onclick="pedirAceptacionTnc()"
       >
         <svg
           viewBox="0 0 24 24"
@@ -1768,7 +1776,7 @@
         <button
           class="btn-share-toggle"
           id="btn-compartir-visor"
-          onclick="toggleCompartir()"
+          onclick="pedirAceptacionTnc()"
           style="flex-shrink: 0"
         >
           <svg
@@ -2740,6 +2748,99 @@
         }
       }
 
+      // ── T&C ACEPTACIÓN PARA COMPARTIR ──
+      function pedirAceptacionTnc() {
+        if (sessionStorage.getItem("tnc-share-accepted")) {
+          toggleCompartir();
+          return;
+        }
+        const d = (I18N[currentLang] || {}).tnc || {};
+        document.getElementById("share-tnc-title").textContent = d.title || t("shareTermsTitle");
+        document.getElementById("share-tnc-meta").textContent = d.meta || "";
+        document.getElementById("share-tnc-intro").textContent = t("shareTermsMsg");
+        document.getElementById("share-tnc-body").innerHTML = d.body || "";
+        const overlay = document.getElementById("share-tnc-overlay");
+        overlay.classList.remove("closing");
+        overlay.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function aceptarTncYCompartir() {
+        sessionStorage.setItem("tnc-share-accepted", "1");
+        const overlay = document.getElementById("share-tnc-overlay");
+        overlay.classList.add("closing");
+        setTimeout(() => {
+          overlay.classList.remove("open", "closing");
+          document.body.style.overflow = "";
+          toggleCompartir();
+        }, 200);
+      }
+
+      function cerrarShareTnc() {
+        const overlay = document.getElementById("share-tnc-overlay");
+        overlay.classList.add("closing");
+        setTimeout(() => {
+          overlay.classList.remove("open", "closing");
+          document.body.style.overflow = "";
+        }, 200);
+      }
+
+      // ── SOPORTE ──
+      function abrirSoporte() {
+        const overlay = document.getElementById("support-overlay");
+        overlay.classList.remove("closing");
+        overlay.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function cerrarSoporte() {
+        const overlay = document.getElementById("support-overlay");
+        overlay.classList.add("closing");
+        setTimeout(() => {
+          overlay.classList.remove("open", "closing");
+          document.body.style.overflow = "";
+          document.getElementById("support-form").reset();
+          document.getElementById("support-msg").textContent = "";
+          document.getElementById("support-msg").className = "share-msg";
+        }, 200);
+      }
+
+      function cerrarSoporteOverlay(e) {
+        if (e.target === e.currentTarget) cerrarSoporte();
+      }
+
+      async function enviarSoporte(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById("support-submit-btn");
+        const msgEl = document.getElementById("support-msg");
+        const tipo = document.getElementById("support-tipo").value;
+        const mensaje = document.getElementById("support-mensaje").value.trim();
+
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = t("supportSending");
+        submitBtn.disabled = true;
+        msgEl.textContent = "";
+        msgEl.className = "share-msg";
+
+        try {
+          await axios.post(
+            "https://formsubmit.co/ajax/ovejaseggs54@gmail.com",
+            { _subject: "Soporte H4ALL", tipo, mensaje, _captcha: "false" },
+            { headers: { Accept: "application/json" } }
+          );
+          msgEl.textContent = t("supportSuccess");
+          msgEl.classList.add("share-msg--ok");
+          document.getElementById("support-form").reset();
+          setTimeout(() => cerrarSoporte(), 2000);
+        } catch {
+          msgEl.textContent = t("supportError");
+          msgEl.classList.add("share-msg--err");
+        } finally {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+      }
+
       // ── TÉRMINOS Y CONDICIONES ──
 
 
@@ -2770,7 +2871,11 @@
         if (e.target === e.currentTarget) cerrarTerminos();
       }
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") cerrarTerminos();
+        if (e.key === "Escape") {
+          cerrarTerminos();
+          cerrarShareTnc();
+          cerrarSoporte();
+        }
       });
 
       async function cargarComicsYRuta() {
@@ -2817,6 +2922,63 @@
     </script>
 
     <!-- Modal: Términos y Condiciones -->
+    <!-- Modal: Aceptar T&C antes de Compartir -->
+    <div class="tnc-overlay" id="share-tnc-overlay">
+      <div class="tnc-card tnc-accept-card">
+        <div class="tnc-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+          </svg>
+          <span class="tnc-main-title" id="share-tnc-title">Términos y Condiciones</span>
+        </div>
+        <p class="tnc-meta" id="share-tnc-meta"></p>
+        <p class="share-tnc-intro" id="share-tnc-intro">Para usar la función de compartir debes aceptar nuestros Términos y Condiciones.</p>
+        <div class="tnc-body tnc-accept-body" id="share-tnc-body"></div>
+        <div class="share-tnc-actions">
+          <button class="share-submit" onclick="aceptarTncYCompartir()" data-i18n="shareTermsAccept">Aceptar y continuar</button>
+          <button class="share-cancel" onclick="cerrarShareTnc()" data-i18n="shareTermsDecline">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Soporte -->
+    <div class="tnc-overlay" id="support-overlay" onclick="cerrarSoporteOverlay(event)">
+      <div class="tnc-card support-card">
+        <button class="tnc-close" onclick="cerrarSoporte()" aria-label="Cerrar">✕</button>
+        <div class="tnc-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span class="tnc-main-title" data-i18n="supportTitle">Centro de Soporte</span>
+        </div>
+        <p class="tnc-meta" data-i18n="supportSub">¿Encontraste un error o tienes una sugerencia? Escríbenos de forma anónima.</p>
+        <form id="support-form" onsubmit="enviarSoporte(event)">
+          <div class="share-field" style="margin-top:8px">
+            <label class="share-label" data-i18n="supportType">Tipo</label>
+            <select id="support-tipo" class="support-select">
+              <option data-i18n="supportTypeOpt1">Sugerencia</option>
+              <option data-i18n="supportTypeOpt2">Error en la página</option>
+              <option data-i18n="supportTypeOpt3">Otro</option>
+            </select>
+          </div>
+          <div class="share-field">
+            <label class="share-label" data-i18n="supportMsg">Mensaje</label>
+            <textarea id="support-mensaje" class="share-input share-textarea" rows="4"
+              data-i18n-ph="supportMsgPh"
+              placeholder="Describe el error o tu sugerencia..."
+              required></textarea>
+          </div>
+          <div class="share-actions">
+            <button type="submit" class="share-submit" id="support-submit-btn" data-i18n="supportSubmit">Enviar</button>
+            <button type="button" class="share-cancel" onclick="cerrarSoporte()" data-i18n="shareCancel">Cancelar</button>
+          </div>
+          <p class="share-msg" id="support-msg"></p>
+        </form>
+      </div>
+    </div>
+
     <div class="tnc-overlay" id="tnc-overlay" onclick="cerrarTerminosOverlay(event)">
       <div class="tnc-card">
         <button class="tnc-close" onclick="cerrarTerminos()" aria-label="Cerrar">✕</button>
