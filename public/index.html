@@ -1410,6 +1410,7 @@
         [data-i18n="lblFilters"],
         [data-i18n="lblSearch"],
         [data-i18n="lblShare"],
+        [data-i18n="supportBtn"],
         .lang-name,
         .btn-theme-label {
           display: none;
@@ -1417,6 +1418,7 @@
         .btn-filter-toggle,
         .btn-search-toggle,
         .btn-share-toggle,
+        .btn-support-toggle,
         .btn-lang,
         .btn-theme {
           padding: 6px 10px;
@@ -2750,10 +2752,6 @@
 
       // ── T&C ACEPTACIÓN PARA COMPARTIR ──
       function pedirAceptacionTnc() {
-        if (sessionStorage.getItem("tnc-share-accepted")) {
-          toggleCompartir();
-          return;
-        }
         const d = (I18N[currentLang] || {}).tnc || {};
         document.getElementById("share-tnc-title").textContent = d.title || t("shareTermsTitle");
         document.getElementById("share-tnc-meta").textContent = d.meta || "";
@@ -2766,7 +2764,6 @@
       }
 
       function aceptarTncYCompartir() {
-        sessionStorage.setItem("tnc-share-accepted", "1");
         const overlay = document.getElementById("share-tnc-overlay");
         overlay.classList.add("closing");
         setTimeout(() => {
