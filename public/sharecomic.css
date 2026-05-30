@@ -231,6 +231,12 @@ html.dark .share-cancel:hover {
 
 
 /* ── Botón Soporte ── */
+@keyframes supportPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(107, 101, 96, 0.55); }
+  60%  { box-shadow: 0 0 0 7px rgba(107, 101, 96, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(107, 101, 96, 0); }
+}
+
 .btn-support-toggle {
   font-family: "Bebas Neue", sans-serif;
   font-size: 14px;
@@ -245,6 +251,7 @@ html.dark .share-cancel:hover {
   align-items: center;
   gap: 7px;
   transition: color 0.18s, border-color 0.18s;
+  animation: supportPulse 2.4s ease-out infinite;
 }
 .btn-support-toggle svg {
   width: 14px; height: 14px;
