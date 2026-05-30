@@ -2752,6 +2752,10 @@
 
       // ── T&C ACEPTACIÓN PARA COMPARTIR ──
       function pedirAceptacionTnc() {
+        if (document.getElementById("share-panel").classList.contains("open")) {
+          toggleCompartir();
+          return;
+        }
         const d = (I18N[currentLang] || {}).tnc || {};
         document.getElementById("share-tnc-title").textContent = d.title || t("shareTermsTitle");
         document.getElementById("share-tnc-meta").textContent = d.meta || "";
