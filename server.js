@@ -67,6 +67,42 @@ app.get("/api/comics/:id/paginas", async (req, res) => {
   }
 });
 
+// ── PROXY DE FORMULARIOS (el correo nunca sale al frontend) ──
+async function enviarFormsubmit(subject, campos) {
+  const email = process.env.CONTACT_EMAIL;
+  if (!email) throw new Error("CONTACT_EMAIL no configurado");
+  const r = await fetch(`https://formsubmit.co/ajax/${email}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ _subject: subject, _captcha: "false", ...campos }),
+  });
+  if (!r.ok) throw new Error("FormSubmit error " + r.status);
+}
+
+app.post("/api/contacto", async (req, res) => {
+  const { titulo, autor, enlace, sinopsis } = req.body;
+  if (!titulo || !autor || !enlace) return res.status(400).json({ error: "Campos requeridos" });
+  try {
+    await enviarFormsubmit("🚨 H4All Comics — Nueva propuesta de cómic", { titulo, autor, enlace, sinopsis: sinopsis || "" });
+    res.json({ ok: true });
+  } catch (e) {
+    console.error("Error /api/contacto:", e.message);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+app.post("/api/soporte", async (req, res) => {
+  const { tipo, mensaje } = req.body;
+  if (!mensaje) return res.status(400).json({ error: "Mensaje requerido" });
+  try {
+    await enviarFormsubmit("Soporte H4ALL", { tipo: tipo || "Sin tipo", mensaje });
+    res.json({ ok: true });
+  } catch (e) {
+    console.error("Error /api/soporte:", e.message);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
 // ── SPA fallback — rutas API no encontradas devuelven 404, resto sirve el SPA ──
 app.use((req, res) => {
   if (req.path.startsWith("/api/")) {

@@ -2727,17 +2727,7 @@
         msgEl.className = "share-msg";
 
         try {
-          await axios.post(
-            "https://formsubmit.co/ajax/ovejaseggs54@gmail.com",
-            {
-              _subject: "🚨 H4All Comics ¡Nueva propuesta de cómic!",
-              titulo,
-              autor,
-              enlace,
-              sinopsis,
-            },
-            { headers: { Accept: "application/json" } },
-          );
+          await axios.post("/api/contacto", { titulo, autor, enlace, sinopsis });
           form.reset();
           alert(t("shareSuccess"));
           toggleCompartir();
@@ -2845,11 +2835,7 @@
         msgEl.className = "share-msg";
 
         try {
-          await axios.post(
-            "https://formsubmit.co/ajax/ovejaseggs54@gmail.com",
-            { _subject: "Soporte H4ALL", tipo, mensaje, _captcha: "false" },
-            { headers: { Accept: "application/json" } }
-          );
+          await axios.post("/api/soporte", { tipo, mensaje });
           msgEl.textContent = t("supportSuccess");
           msgEl.classList.add("share-msg--ok");
           document.getElementById("support-form").reset();
