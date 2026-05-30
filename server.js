@@ -93,40 +93,30 @@ async function enviarCorreo(subject, htmlBody) {
   });
 }
 
-app.post("/api/contacto", async (req, res) => {
+app.post("/api/contacto", (req, res) => {
   const { titulo, autor, enlace, sinopsis } = req.body;
   if (!titulo || !autor || !enlace) return res.status(400).json({ error: "Campos requeridos" });
-  try {
-    await enviarCorreo(
-      "🚨 H4All Comics — Nueva propuesta de cómic",
-      `<h2>Nueva propuesta de cómic</h2>
-       <p><b>Título:</b> ${titulo}</p>
-       <p><b>Autor:</b> ${autor}</p>
-       <p><b>Enlace:</b> <a href="${enlace}">${enlace}</a></p>
-       <p><b>Sinopsis:</b> ${sinopsis || "—"}</p>`
-    );
-    res.json({ ok: true });
-  } catch (e) {
-    console.error("Error /api/contacto:", e.message);
-    res.status(500).json({ error: "Error interno del servidor" });
-  }
+  res.json({ ok: true });
+  enviarCorreo(
+    "🚨 H4All Comics — Nueva propuesta de cómic",
+    `<h2>Nueva propuesta de cómic</h2>
+     <p><b>Título:</b> ${titulo}</p>
+     <p><b>Autor:</b> ${autor}</p>
+     <p><b>Enlace:</b> <a href="${enlace}">${enlace}</a></p>
+     <p><b>Sinopsis:</b> ${sinopsis || "—"}</p>`
+  ).catch(e => console.error("Error /api/contacto:", e.message));
 });
 
-app.post("/api/soporte", async (req, res) => {
+app.post("/api/soporte", (req, res) => {
   const { tipo, mensaje } = req.body;
   if (!mensaje) return res.status(400).json({ error: "Mensaje requerido" });
-  try {
-    await enviarCorreo(
-      "Soporte H4ALL",
-      `<h2>Mensaje de soporte</h2>
-       <p><b>Tipo:</b> ${tipo || "Sin tipo"}</p>
-       <p><b>Mensaje:</b> ${mensaje}</p>`
-    );
-    res.json({ ok: true });
-  } catch (e) {
-    console.error("Error /api/soporte:", e.message);
-    res.status(500).json({ error: "Error interno del servidor" });
-  }
+  res.json({ ok: true });
+  enviarCorreo(
+    "Soporte H4ALL",
+    `<h2>Mensaje de soporte</h2>
+     <p><b>Tipo:</b> ${tipo || "Sin tipo"}</p>
+     <p><b>Mensaje:</b> ${mensaje}</p>`
+  ).catch(e => console.error("Error /api/soporte:", e.message));
 });
 
 // ── SPA fallback — rutas API no encontradas devuelven 404, resto sirve el SPA ──
