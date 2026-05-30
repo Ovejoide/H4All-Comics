@@ -67,31 +67,44 @@ app.get("/api/comics/:id/paginas", async (req, res) => {
   }
 });
 
-// ── PROXY DE FORMULARIOS (el correo nunca sale al frontend) ──
-const SITE_URL = process.env.SITE_URL || "https://h4all-comics.onrender.com";
+// ── CORREO CON NODEMAILER (Gmail SMTP) ──
+const nodemailer = require("nodemailer");
 
-async function enviarFormsubmit(subject, campos) {
+function crearTransporter() {
   const email = process.env.CONTACT_EMAIL;
-  if (!email) throw new Error("CONTACT_EMAIL no configurado");
-  const r = await fetch(`https://formsubmit.co/ajax/${email}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "Origin": SITE_URL,
-      "Referer": SITE_URL + "/",
-    },
-    body: JSON.stringify({ _subject: subject, _captcha: "false", ...campos }),
+  const pass  = process.env.GMAIL_APP_PASSWORD;
+  if (!email || !pass) throw new Error("CONTACT_EMAIL o GMAIL_APP_PASSWORD no configurados");
+  return nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: { user: email, pass },
   });
-  const body = await r.text();
-  if (!r.ok) throw new Error(`FormSubmit ${r.status}: ${body}`);
+}
+
+async function enviarCorreo(subject, htmlBody) {
+  const email = process.env.CONTACT_EMAIL;
+  const transporter = crearTransporter();
+  await transporter.sendMail({
+    from: `"H4ALL Comics" <${email}>`,
+    to: email,
+    subject,
+    html: htmlBody,
+  });
 }
 
 app.post("/api/contacto", async (req, res) => {
   const { titulo, autor, enlace, sinopsis } = req.body;
   if (!titulo || !autor || !enlace) return res.status(400).json({ error: "Campos requeridos" });
   try {
-    await enviarFormsubmit("🚨 H4All Comics — Nueva propuesta de cómic", { titulo, autor, enlace, sinopsis: sinopsis || "" });
+    await enviarCorreo(
+      "🚨 H4All Comics — Nueva propuesta de cómic",
+      `<h2>Nueva propuesta de cómic</h2>
+       <p><b>Título:</b> ${titulo}</p>
+       <p><b>Autor:</b> ${autor}</p>
+       <p><b>Enlace:</b> <a href="${enlace}">${enlace}</a></p>
+       <p><b>Sinopsis:</b> ${sinopsis || "—"}</p>`
+    );
     res.json({ ok: true });
   } catch (e) {
     console.error("Error /api/contacto:", e.message);
@@ -103,7 +116,12 @@ app.post("/api/soporte", async (req, res) => {
   const { tipo, mensaje } = req.body;
   if (!mensaje) return res.status(400).json({ error: "Mensaje requerido" });
   try {
-    await enviarFormsubmit("Soporte H4ALL", { tipo: tipo || "Sin tipo", mensaje });
+    await enviarCorreo(
+      "Soporte H4ALL",
+      `<h2>Mensaje de soporte</h2>
+       <p><b>Tipo:</b> ${tipo || "Sin tipo"}</p>
+       <p><b>Mensaje:</b> ${mensaje}</p>`
+    );
     res.json({ ok: true });
   } catch (e) {
     console.error("Error /api/soporte:", e.message);
