@@ -86,6 +86,15 @@
         justify-content: space-between;
         gap: 24px;
       }
+      .logo-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        text-align: left;
+        transition: opacity 0.18s;
+      }
+      .logo-btn:hover { opacity: 0.8; }
       .logo-badge {
         width: 60px;
         height: 60px;
@@ -1489,10 +1498,10 @@
   <body>
     <header>
       <div class="header-inner">
-        <div>
+        <button class="logo-btn" onclick="irAlInicio()" aria-label="Volver al inicio">
           <p class="subtitle">Hentai For All</p>
           <h1>H4ALL<br />Comics</h1>
-        </div>
+        </button>
         <div class="header-actions">
           <button
             class="header-action-btn"
@@ -2278,6 +2287,21 @@
           </div>`;
           document.getElementById("count-badge").textContent = "!";
         }
+      }
+
+      function irAlInicio() {
+        const visor = document.getElementById("visor");
+        if (visor.style.display === "block") {
+          volverALista(true);
+        } else {
+          cerrarCompartir();
+          document.getElementById("filter-panel")?.classList.remove("open");
+          document.getElementById("search-panel")?.classList.remove("open");
+          document.getElementById("contenedor-comics").style.display = "grid";
+          document.getElementById("toolbar").style.display = "flex";
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        history.pushState({ view: "catalog" }, "", "/");
       }
 
       function slugify(titulo) {
