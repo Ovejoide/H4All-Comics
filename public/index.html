@@ -2295,10 +2295,8 @@
           volverALista(true);
         } else {
           cerrarCompartir();
-          document.getElementById("filter-panel")?.classList.remove("open");
-          document.getElementById("search-panel")?.classList.remove("open");
-          document.getElementById("btn-filtros")?.classList.remove("active");
-          document.getElementById("btn-buscar")?.classList.remove("active");
+          if (document.getElementById("filter-panel").classList.contains("open")) toggleFiltros();
+          if (document.getElementById("search-panel").classList.contains("open")) toggleBuscador();
           document.getElementById("contenedor-comics").style.display = "grid";
           document.getElementById("toolbar").style.display = "flex";
           window.scrollTo({ top: 0, behavior: "smooth" });
