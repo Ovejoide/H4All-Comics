@@ -2003,9 +2003,8 @@
 
       function nombreIdioma(code) {
         if (!code || code === "N/A") return null;
-        return (
-          I18N[currentLang].idiomas[code.toLowerCase()] || code.toUpperCase()
-        );
+        const idiomas = (I18N[currentLang] || {}).idiomas || {};
+        return idiomas[code.toLowerCase()] || code.toUpperCase();
       }
 
       // ── FILTROS ──
@@ -2911,12 +2910,12 @@
       });
 
       async function cargarComicsYRuta() {
-        await cargarComics();
+        await Promise.all([cargarComics(), loadLang(currentLang)]);
         const slug = window.location.pathname.slice(1);
         if (slug) {
-          const comic = todosLosComics.find(c => slugify(c.titulo) === slug);
+          const comic = todosLosComics.find(c => slugify(c.titulo).toLowerCase() === slug.toLowerCase());
           if (comic) {
-            history.replaceState({ view: "comic", comicId: comic.id }, "", "/" + slug);
+            history.replaceState({ view: "comic", comicId: comic.id }, "", "/" + slugify(comic.titulo));
             abrirComic(comic, { fromHistory: true });
             return;
           }
